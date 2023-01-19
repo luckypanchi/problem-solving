@@ -19,6 +19,7 @@ def main():
 
     directories = [];
     solveds = [];
+    url = "";
 
 
     for root, dirs, files in os.walk("."):
@@ -44,6 +45,7 @@ def main():
         if directory not in directories:
             if directory in ["백준", "프로그래머스", "SWEA"]:
                 content += "## 📚 {}\n".format(directory)
+                url = URLS[directory]
             else:
                 content += "### 🚀 {}\n".format(directory)
                 content += "| 문제 번호 | 문제 이름 | 문제 링크 | 풀이 링크 |\n"
@@ -63,10 +65,7 @@ def main():
 
         for problem in rows:
             number, name, my_link = problem
-            if directory in ["백준", "프로그래머스"]:
-                link = URLS[directory] + str(number)
-            else:
-                link = ""
+            link = url + str(number)
             content += "|{}|{}|[링크]({})|[링크]({})|\n".format(number, name, link, my_link)
 
     with open("README.md", "w") as fd:
