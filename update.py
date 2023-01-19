@@ -46,8 +46,8 @@ def main():
                 content += "## 📚 {}\n".format(directory)
             else:
                 content += "### 🚀 {}\n".format(directory)
-                content += "| 문제 번호 | 문제 이름 | 문제 링크 | 풀이 링크 | 다시 풀어보기 |\n"
-                content += "| :-----: | :-----: | :-----: | :-----: | :-----: |\n"
+                content += "| 문제 번호 | 문제 이름 | 문제 링크 | 풀이 링크 |\n"
+                content += "| :-----: | :-----: | :-----: | :-----: |\n"
             directories.append(directory)
 
         rows = [];
@@ -55,19 +55,19 @@ def main():
         for file in files:
             if category not in solveds:
                 splitedCatagory = list(map(lambda x: x.strip(), category.split(sep=".", maxsplit=1)))
-                link = parse.quote(os.path.join(root, file))
+                my_link = parse.quote(os.path.join(root, file))
                 solveds.append(category)
-                rows.append((int(splitedCatagory[0]), splitedCatagory[1], link))
+                rows.append((int(splitedCatagory[0]), splitedCatagory[1], my_link))
 
         rows.sort(key=lambda x: x[0])
 
         for problem in rows:
             number, name, my_link = problem
             if directory in ["백준", "프로그래머스"]:
-                link = URLS[directory] + number
+                link = URLS[directory] + str(number)
             else:
                 link = ""
-            content += "|{}|{}|[링크]({})|[링크]({})| |\n".format(number, name, link, my_link)
+            content += "|{}|{}|[링크]({})|[링크]({})|\n".format(number, name, link, my_link)
 
     with open("README.md", "w") as fd:
         fd.write(content)
