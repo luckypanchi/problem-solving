@@ -61,7 +61,7 @@ def main():
 
         rows.sort(key=lambda x: x[0])
 
-        for problem in solveds:
+        for problem in rows:
             number, name, my_link = problem
             if directory in ["백준", "프로그래머스"]:
                 link = URLS[directory] + number
