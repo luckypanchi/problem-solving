@@ -18,6 +18,7 @@ def main():
     content += HEADER
 
     directories = [];
+    solveds = [];
 
 
     for root, dirs, files in os.walk("."):
@@ -46,18 +47,19 @@ def main():
             else:
                 content += "### 🚀 {}\n".format(directory)
                 content += "| 문제 번호 | 문제 이름 | 문제 링크 | 풀이 링크 | 다시 풀어보기 |\n"
-                content += "| ----- | ----- | ----- | ----- | ----- |\n"
+                content += "| :-----: | :-----: | :-----: | :-----: | :-----: |\n"
             directories.append(directory)
 
-        solveds = [];
+        rows = [];
 
         for file in files:
             if category not in solveds:
                 splitedCatagory = list(map(lambda x: x.strip(), category.split(sep=".", maxsplit=1)))
                 link = parse.quote(os.path.join(root, file))
-                solveds.append((int(splitedCatagory[0]), splitedCatagory[1], link))
+                solveds.append(category)
+                rows.append((int(splitedCatagory[0]), splitedCatagory[1], link))
 
-            solveds.sort(key=lambda x: x[0])
+        rows.sort(key=lambda x: x[0])
 
         for problem in solveds:
             number, name, my_link = problem
