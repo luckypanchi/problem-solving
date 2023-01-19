@@ -61,7 +61,7 @@ def main():
 
         for problem in solveds:
             number, name, my_link = problem
-            if directory != "SWEA":
+            if directory in ["백준", "프로그래머스"]:
                 link = URLS[directory] + number
             else:
                 link = ""
