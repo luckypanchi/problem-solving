@@ -52,7 +52,7 @@ def main():
                 content += "| :-----: | :-----: | :-----: | :-----: |\n"
             directories.append(directory)
 
-        rows = [];
+        rows = []
 
         for file in files:
             if category not in solveds:
