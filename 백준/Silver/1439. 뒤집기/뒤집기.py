@@ -3,12 +3,12 @@ import sys
 input = sys.stdin.readline
 
 
-n = input()
+n = input().strip()
 
 zero_counts = 0
 one_counts = 0
 
-current = "-1"
+current = ""
 
 for num in n:
     if current != num:
