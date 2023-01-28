@@ -13,6 +13,7 @@
 | :----------: | :----------: | :----------: | :----------: |
 | 프로그래머스 | 12980 | 점프와 순간 이동 | [링크](https://school.programmers.co.kr/learn/courses/30/lessons/12980) |
 | 프로그래머스 | 60057 | 문자열 압축 | [링크](https://school.programmers.co.kr/learn/courses/30/lessons/60057) |
+| 프로그래머스 | 42891 | 무지의 먹방 라이브 | [링크](https://school.programmers.co.kr/learn/courses/30/lessons/42891) |
 | 백준 | 1339 | 단어 수학 | [링크](https://www.acmicpc.net/problem/1339) |
 | 백준 | 1931 | 회의실 배정 | [링크](https://www.acmicpc.net/problem/1931) |
 | 백준 | 1080 | 행렬 | [링크](https://www.acmicpc.net/problem/1080) |
