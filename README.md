@@ -24,3 +24,4 @@
 | 백준 | 14888 | 연산자 끼워넣기 | [링크](https://www.acmicpc.net/problem/14888) |
 | 백준 | 14500 | 테트로미노 | [링크](https://www.acmicpc.net/problem/14500) |
 | 백준 | 16198 | 에너지 모으기 | [링크](https://www.acmicpc.net/problem/16198) |
+| 백준 | 5525 | IOIOI | [링크](https://www.acmicpc.net/problem/5525) |
