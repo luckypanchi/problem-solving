@@ -25,3 +25,4 @@
 | 백준 | 14500 | 테트로미노 | [링크](https://www.acmicpc.net/problem/14500) |
 | 백준 | 16198 | 에너지 모으기 | [링크](https://www.acmicpc.net/problem/16198) |
 | 백준 | 5525 | IOIOI | [링크](https://www.acmicpc.net/problem/5525) |
+| 백준 | 5427 | 불 | [링크](https://www.acmicpc.net/problem/5427) |
