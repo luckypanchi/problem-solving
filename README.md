@@ -26,3 +26,4 @@
 | 백준 | 16198 | 에너지 모으기 | [링크](https://www.acmicpc.net/problem/16198) |
 | 백준 | 5525 | IOIOI | [링크](https://www.acmicpc.net/problem/5525) |
 | 백준 | 5427 | 불 | [링크](https://www.acmicpc.net/problem/5427) |
+| 백준 | 1756 | 피자 굽기 | [링크](https://www.acmicpc.net/problem/1756) |
