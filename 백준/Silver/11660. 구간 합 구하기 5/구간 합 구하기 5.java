@@ -1,6 +1,7 @@
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,40 +14,30 @@ public class Main {
 		int n = Integer.parseInt(st.nextToken());
 		int m = Integer.parseInt(st.nextToken());
 
-		int[][] board = new int[n][n];
+		int[][] board = new int[n + 1][n + 1];
 
-		for (int i = 0; i < n; i++) {
+		for (int i = 1; i < n + 1; i++) {
 			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < n; j++) {
+			for (int j = 1; j < n + 1; j++) {
 				board[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 
-		for (int i = 0; i < n; i++) {
-			for (int j = 1; j < n; j++) {
-				board[i][j] += board[i][j - 1];
+		for (int i = 1; i < n + 1; i++) {
+			for (int j = 1; j < n + 1; j++) {
+				board[i][j] += board[i - 1][j] + board[i][j - 1] - board[i - 1][j - 1];
 			}
 		}
 
 		for (int i = 0; i < m; i++) {
 			st = new StringTokenizer(br.readLine());
-			int y1 = Integer.parseInt(st.nextToken()) - 1;
-			int x1 = Integer.parseInt(st.nextToken()) - 1;
-			int y2 = Integer.parseInt(st.nextToken()) - 1;
-			int x2 = Integer.parseInt(st.nextToken()) - 1;
+			int y1 = Integer.parseInt(st.nextToken());
+			int x1 = Integer.parseInt(st.nextToken());
+			int y2 = Integer.parseInt(st.nextToken());
+			int x2 = Integer.parseInt(st.nextToken());
 
-			int sum = 0;
-			if (x1 > 0) {
-				for (int j = y1; j < y2 + 1; j++) {
-					sum += board[j][x2] - board[j][x1 - 1];
-				}
-			} else {
-				for (int j = y1; j < y2 + 1; j++) {
-					sum += board[j][x2];
-				}
-			}
-
-			sb.append(sum).append("\n");
+			int answer = board[y2][x2] - board[y2][x1 - 1] - board[y1 - 1][x2] + board[y1 - 1][x1 - 1];
+			sb.append(answer).append("\n");
 
 		}
 
