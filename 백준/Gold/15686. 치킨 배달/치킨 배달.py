@@ -1,50 +1,33 @@
 import sys
-input = sys.stdin.readline
 from itertools import combinations
 
-def main():
-    n, m = map(int, input().split())
-    matrix = [list(map(int, input().split())) for _ in range(n)]
-
-    chicken = []
-    home = []
-
-    for i in range(n):
-        for j in range(n):
-            if matrix[i][j] == 1: home.append((i, j))
-            if matrix[i][j] == 2: chicken.append((i, j))
-
-    def getDistance(curr):
-        y, x = curr
-        dist = 9999
-
-        for cand in dest:
-            tmp = abs(y-cand[0]) + abs(x-cand[1])
-            dist = min(dist, tmp)
-        
-        return dist
-
-    def getTotalDist():
-        total = 0
-
-        for curr in home:
-            total += getDistance(curr)
-
-        return total
-
-    dest = []
-
-    answer = 9999
-    for i in range(1, m+1):
-        for tmp in list(combinations(chicken, i)):
-            for loc in tmp:
-                dest.append(loc)
-            answer = min(answer, getTotalDist())
-            dest = []
+input = sys.stdin.readline
+INF = int(1e9)
 
 
-    print(answer)
+n, m = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(n)]
 
+houses = []
+chickens = []
 
-if __name__ == "__main__":
-    main()
+for i in range(n):
+    for j in range(n):
+        if board[i][j] == 1:
+            houses.append((i, j))
+        if board[i][j] == 2:
+            chickens.append((i, j))
+
+combs = list(combinations(chickens, m))
+answer = INF
+
+for comb in combs:
+    total = 0
+    for hy, hx in houses:
+        m = INF
+        for cy, cx in comb:
+            m = min(m, abs(hy - cy) + abs(hx - cx))
+        total += m
+    answer = min(answer, total)
+
+print(answer)
