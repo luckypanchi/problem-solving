@@ -9,7 +9,7 @@
 
 ### 💡 다시 풀어볼 문제
 
-| 사이트 | 문제 번호 |  문제 이름 | 링크 | 비고 |
+| 사이트 | 문제 번호 |  문제 이름 | 바로가기 | 비고 |
 | :----------: | :----------: | :----------: | :----------: | :----------: |
 | 프로그래머스 | 12980 | 점프와 순간 이동 | [링크](https://school.programmers.co.kr/learn/courses/30/lessons/12980) | |
 | 프로그래머스 | 60057 | 문자열 압축 | [링크](https://school.programmers.co.kr/learn/courses/30/lessons/60057) | |
@@ -30,4 +30,5 @@
 | 백준 | 11660 | 구간 합 구하기 5 | [링크](https://www.acmicpc.net/problem/11660) | SSAFY |
 | 백준 | 9466 | 텀 프로젝트 | [링크](https://www.acmicpc.net/problem/9466) | |
 | 백준 | 1167 | 트리의 지름 | [링크](https://www.acmicpc.net/problem/1167) | [참고](https://velog.io/@zioo/%ED%8A%B8%EB%A6%AC%EC%9D%98-%EC%A7%80%EB%A6%84-%EA%B5%AC%ED%95%98%EA%B8%B0) |
+| 백준 | 1158 | 요세푸스 문제 | [링크](https://www.acmicpc.net/problem/1158) | SSAFY |
 | 백준 | 2493 | 탑 | [링크](https://www.acmicpc.net/problem/2493) | SSAFY |
