@@ -27,6 +27,7 @@
 | 백준 | 5525 | IOIOI | [링크](https://www.acmicpc.net/problem/5525) | |
 | 백준 | 5427 | 불 | [링크](https://www.acmicpc.net/problem/5427) | |
 | 백준 | 1756 | 피자 굽기 | [링크](https://www.acmicpc.net/problem/1756) | |
-| 백준 | 11660 | 구간 합 구하기 5 | [링크](https://www.acmicpc.net/problem/11660) | |
+| 백준 | 11660 | 구간 합 구하기 5 | [링크](https://www.acmicpc.net/problem/11660) | SSAFY |
 | 백준 | 9466 | 텀 프로젝트 | [링크](https://www.acmicpc.net/problem/9466) | |
 | 백준 | 1167 | 트리의 지름 | [링크](https://www.acmicpc.net/problem/1167) | [참고](https://velog.io/@zioo/%ED%8A%B8%EB%A6%AC%EC%9D%98-%EC%A7%80%EB%A6%84-%EA%B5%AC%ED%95%98%EA%B8%B0) |
+| 백준 | 2493 | 탑 | [링크](https://www.acmicpc.net/problem/2493) | SSAFY |
