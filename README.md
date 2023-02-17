@@ -36,4 +36,4 @@
 | 백준 | 16926 | 배열 돌리기 1 | [링크](https://www.acmicpc.net/problem/16926) | SSAFY |
 | 백준 | 17471 | 게리맨더링 | [링크](https://www.acmicpc.net/problem/17471) | |
 | 백준 | 2939 | 설탕 배달 | [링크](https://www.acmicpc.net/problem/2839) | SSAFY |
-| 백준 | 1976 | 여행 가자 | [링크](https://www.acmicpc.net/problem/1976) | SSAFY |
+| 백준 | 1976 | 여행 가자 | [링크](https://www.acmicpc.net/problem/1976) | ⭐ |
