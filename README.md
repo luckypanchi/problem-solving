@@ -35,3 +35,4 @@
 | 백준 | 2493 | 탑 | [링크](https://www.acmicpc.net/problem/2493) | SSAFY |
 | 백준 | 16926 | 배열 돌리기 1 | [링크](https://www.acmicpc.net/problem/16926) | SSAFY |
 | 백준 | 17471 | 게리맨더링 | [링크](https://www.acmicpc.net/problem/17471) | |
+| 백준 | 2939 | 설탕 배달 | [링크](https://www.acmicpc.net/problem/2839) | SSAFY |
