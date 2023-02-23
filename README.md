@@ -38,3 +38,4 @@
 | 백준 | 2939 | 설탕 배달 | [링크](https://www.acmicpc.net/problem/2839) | SSAFY |
 | 백준 | 1976 | 여행 가자 | [링크](https://www.acmicpc.net/problem/1976) | ⭐ |
 | 백준 | 1194 | 달이 차오른다, 가자. | [링크](https://www.acmicpc.net/problem/1194) | |
+| 백준 | 1699 | 제곱수의 합 | [링크](https://www.acmicpc.net/problem/1699) | |
