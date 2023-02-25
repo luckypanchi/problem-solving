@@ -3,23 +3,9 @@ import sys
 input = sys.stdin.readline
 
 
-def main():
-    n = int(input())
-    matrix = []
+n = int(input())
+students = [list(input().split()) for _ in range(n)]
+students.sort(key=lambda x: (-int(x[1]), int(x[2]), -int(x[3]), x[0]))
 
-    for _ in range(n):
-        name, *score = input().split()
-        kor, eng, mth = map(int, score)
-
-        matrix.append((name, kor, eng, mth))
-
-    matrix.sort(key=lambda x: x[0])
-    matrix.sort(key=lambda x: x[3], reverse=True)
-    matrix.sort(key=lambda x: x[2])
-    matrix.sort(key=lambda x: x[1], reverse=True)
-
-    for info in matrix:
-        print(info[0])
-
-
-main()
+for s in students:
+    print(s[0])
