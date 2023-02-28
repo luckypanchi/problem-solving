@@ -40,6 +40,5 @@
 | 백준 | 1194 | 달이 차오른다, 가자. | [링크](https://www.acmicpc.net/problem/1194) | |
 | 백준 | 1699 | 제곱수의 합 | [링크](https://www.acmicpc.net/problem/1699) | |
 | 백준 | 9251 | LCS | [링크](https://www.acmicpc.net/problem/9251) | |
-| 백준 | 9251 | LCS | [링크](https://www.acmicpc.net/problem/9251) | |
 | 백준 | 9252 | LCS 2 | [링크](https://www.acmicpc.net/problem/9252) | |
 | 백준 | 2293 | 동전 1 | [링크](https://www.acmicpc.net/problem/2293) | |
