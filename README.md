@@ -42,3 +42,4 @@
 | 백준 | 9251 | LCS | [링크](https://www.acmicpc.net/problem/9251) | |
 | 백준 | 9252 | LCS 2 | [링크](https://www.acmicpc.net/problem/9252) | |
 | 백준 | 2293 | 동전 1 | [링크](https://www.acmicpc.net/problem/2293) | |
+| 백준 | 17071 | 숨바꼭질 5 | [링크](https://www.acmicpc.net/problem/17071) | |
