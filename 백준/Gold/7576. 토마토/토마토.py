@@ -1,59 +1,46 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
 
-dx = [1, 0, -1, 0]
-dy = [0, -1, 0, 1]
+input = sys.stdin.readline
 
-def main():
-    m, n = map(int, input().split())
-    matrix = [list(map(int, input().split())) for _ in range(n)]
-    visited = [[0]*m for _ in range(n)]
+dx = (1, 0, -1, 0)
+dy = (0, 1, 0, -1)
 
 
-    start = []
-    for i in range(n):
-        for j in range(m):
-            if matrix[i][j] == 1: start.append((i, j))
-            if matrix[i][j] == -1: visited[i][j] = -1
+m, n = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(n)]
 
-    def bfs():
+que = deque()
 
-        que = deque()
-        
-        for arr in start:
-            que.append(arr)
-        
-        for arr in start:
-            y, x = arr
-            visited[y][x] = 1
+flag = True
+for i in range(n):
+    for j in range(m):
+        if board[i][j] == 0:
+            flag = False
+        if board[i][j] == 1:
+            que.append((i, j))
 
-        while que:
-            y, x = que.popleft()
-            for i in range(4):
-                nx = x + dx[i]
-                ny = y + dy[i]
-                if 0<=nx<m and 0<=ny<n and visited[ny][nx] == 0 and matrix[ny][nx] == 0:
-                    que.append((ny, nx))
-                    visited[ny][nx] = visited[y][x] + 1
+if flag:
+    print(0)
+    sys.exit()
 
-        return visited
+answer = -1
+while que:
+    length = len(que)
+    for _ in range(length):
+        y, x = que.popleft()
+        for i in range(4):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if 0 <= ny < n and 0 <= nx < m and board[ny][nx] == 0:
+                board[ny][nx] = 1
+                que.append((ny, nx))
+    answer += 1
 
-    result = bfs()
-    answer = 0
-    stop = False
+for i in range(n):
+    for j in range(m):
+        if board[i][j] == 0:
+            print(-1)
+            sys.exit()
 
-    for i in range(n):
-        for j in range(m):
-            if result[i][j] == 0:
-                answer = -1
-                stop = True
-                break
-            else:
-                answer = max(answer, result[i][j] - 1)
-        if stop: break
-
-    print(answer)
-    
-if __name__ == "__main__":
-    main()
+print(answer)
