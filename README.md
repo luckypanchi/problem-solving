@@ -47,3 +47,4 @@
 | 백준 | 10775 | 공항 | [링크](https://www.acmicpc.net/problem/10775) | |
 | 백준 | 11053 | 가장 긴 증가하는 부분 수열 | [링크](https://www.acmicpc.net/problem/11053) | |
 | 백준 | 2565 | 전깃줄 | [링크](https://www.acmicpc.net/problem/2565) | |
+| 백준 | 1005 | ACM Craft | [링크](https://www.acmicpc.net/problem/1005) | |
