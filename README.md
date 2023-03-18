@@ -53,3 +53,6 @@
 | 백준 | 10942 | 팰린드롬? | [링크](https://www.acmicpc.net/problem/10942) | |
 | 백준 | 1874 | 스택 수열 | [링크](https://www.acmicpc.net/problem/1874) | |
 | 백준 | 11066 | 파일 합치기 | [링크](https://www.acmicpc.net/problem/11066) | |
+| 백준 | 1238 | 파티 | [링크](https://www.acmicpc.net/problem/1238) | |
+| 백준 | 13549 | 숨바꼭질 3 | [링크](https://www.acmicpc.net/problem/13549) | |
+| 백준 | 1446 | 파일 합치기 | [링크](https://www.acmicpc.net/problem/1446) | |
