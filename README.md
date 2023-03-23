@@ -59,3 +59,4 @@
 | 백준 | 1300 | K번째 수 | [링크](https://www.acmicpc.net/problem/1300) | [참고1](https://www.acmicpc.net/board/view/37110) / [참고2](https://www.acmicpc.net/board/view/31679#comment-57064) |
 | 백준 | 11049 | 행렬 곱셈 순서 | [링크](https://www.acmicpc.net/problem/11049) | |
 | 백준 | 1915 | 가장 큰 정사각형 | [링크](https://www.acmicpc.net/problem/1915) | |
+| 백준 | 5557 | 1학년 | [링크](https://www.acmicpc.net/problem/5557) | |
