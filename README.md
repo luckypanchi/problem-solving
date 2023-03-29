@@ -60,3 +60,4 @@
 | 백준 | 11049 | 행렬 곱셈 순서 | [링크](https://www.acmicpc.net/problem/11049) | |
 | 백준 | 1915 | 가장 큰 정사각형 | [링크](https://www.acmicpc.net/problem/1915) | |
 | 백준 | 5557 | 1학년 | [링크](https://www.acmicpc.net/problem/5557) | |
+| 백준 | 17404 | RGB거리 2 | [링크](https://www.acmicpc.net/problem/17404) | |
