@@ -23,7 +23,6 @@
 | 백준 | 1182 | 부분수열의 합 | [링크](https://www.acmicpc.net/problem/1182) | |
 | 백준 | 14225 | 부분수열의 합 | [링크](https://www.acmicpc.net/problem/14225) | |
 | 백준 | 14888 | 연산자 끼워넣기 | [링크](https://www.acmicpc.net/problem/14888) | |
-| 백준 | 14500 | 테트로미노 | [링크](https://www.acmicpc.net/problem/14500) | |
 | 백준 | 16198 | 에너지 모으기 | [링크](https://www.acmicpc.net/problem/16198) | |
 | 백준 | 5525 | IOIOI | [링크](https://www.acmicpc.net/problem/5525) | |
 | 백준 | 5427 | 불 | [링크](https://www.acmicpc.net/problem/5427) | |
@@ -62,3 +61,4 @@
 | 백준 | 5557 | 1학년 | [링크](https://www.acmicpc.net/problem/5557) | |
 | 백준 | 17404 | RGB거리 2 | [링크](https://www.acmicpc.net/problem/17404) | |
 | 백준 | 7579 | 앱 | [링크](https://www.acmicpc.net/problem/7579) | |
+| 백준 | 2458 | 키 순서 | [링크](https://www.acmicpc.net/problem/2458) | |
