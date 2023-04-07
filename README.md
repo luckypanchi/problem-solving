@@ -63,3 +63,4 @@
 | 백준 | 7579 | 앱 | [링크](https://www.acmicpc.net/problem/7579) | |
 | 백준 | 2458 | 키 순서 | [링크](https://www.acmicpc.net/problem/2458) | |
 | 백준 | 2629 | 양팔저울 | [링크](https://www.acmicpc.net/problem/2629) | |
+| 백준 | 13398 | 연속합 2 | [링크](https://www.acmicpc.net/problem/13398) | |
