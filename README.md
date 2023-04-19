@@ -67,3 +67,4 @@
 | 백준 | 2342 | Dance Dance Revolution | [링크](https://www.acmicpc.net/problem/2342) | |
 | 백준 | 2162 | 선분 그룹 | [링크](https://www.acmicpc.net/problem/2162) | |
 | 백준 | 14003 | 가장 긴 증가하는 부분 수열 5 | [링크](https://www.acmicpc.net/problem/14003) | |
+| 백준 | 1208 | 부분수열의 합 2 | [링크](https://www.acmicpc.net/problem/1208) | |
