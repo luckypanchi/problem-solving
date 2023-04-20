@@ -19,7 +19,7 @@
 <table class="table table-bordered td-center td-middle">
 	<tbody>
 		<tr>
-			<td><img alt="" src="" style="width: 204px; height: 203px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/443a20c6-fbd7-4951-9b68-bf78b12b27fb/-/preview/" style="width: 204px; height: 203px;"></td>
 			<td><img alt="" src="" style="width: 204px; height: 204px;"></td>
 			<td><img alt="" src="https://upload.acmicpc.net/50b901d5-47ec-4504-bce1-122e8282284a/-/preview/" style="width: 204px; height: 204px;"></td>
 		</tr>
@@ -33,7 +33,7 @@
 
 <p>가장 처음에 상어가 있는 칸을 제외한 나머지 칸에는 구슬이 하나 들어갈 수 있다. 구슬은 1번 구슬, 2번 구슬, 3번 구슬이 있다. 같은 번호를 가진 구슬이 번호가 연속하는 칸에 있으면, 그 구슬을 연속하는 구슬이라고 한다. 다음은 N = 7인 경우 예시이다. </p>
 
-<p style="text-align: center;"><img alt="" src="" style="width: 300px; height: 299px;"></p>
+<p style="text-align: center;"><img alt="" src="https://upload.acmicpc.net/2c31bd47-ddc9-40f2-9830-05bef469fb4a/-/preview/" style="width: 300px; height: 299px;"></p>
 
 <p>블리자드 마법을 시전하려면 방향 d<sub>i</sub>와 거리 s<sub>i</sub>를 정해야 한다. 총 4가지 방향 ↑, ↓, ←, →가 있고, 정수 1, 2, 3, 4로 나타낸다. 상어는 d<sub>i</sub> 방향으로 거리가 s<sub>i</sub> 이하인 모든 칸에 얼음 파편을 던져 그 칸에 있는 구슬을 모두 파괴한다. 구슬이 파괴되면 그 칸은 구슬이 들어있지 않은 빈 칸이 된다. 얼음 파편은 벽의 위로 떨어지기 때문에, 벽은 파괴되지 않는다.</p>
 
@@ -42,7 +42,7 @@
 <table class="table table-bordered td-center td-middle">
 	<tbody>
 		<tr>
-			<td><img alt="" src="" style="width: 300px; height: 299px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/ca05f21a-bd15-4fbd-80a5-899712db2beb/-/preview/" style="width: 300px; height: 299px;"></td>
 			<td><img alt="" src="" style="width: 300px; height: 299px;"></td>
 		</tr>
 		<tr>
