@@ -4,11 +4,11 @@
 
 ### 성능 요약
 
-메모리: 117244 KB, 시간: 236 ms
+메모리: 31364 KB, 시간: 332 ms
 
 ### 분류
 
-구현(implementation), 시뮬레이션(simulation)
+구현, 시뮬레이션
 
 ### 문제 설명
 
@@ -21,7 +21,7 @@
 		<tr>
 			<td><img alt="" src="" style="width: 204px; height: 203px;"></td>
 			<td><img alt="" src="" style="width: 204px; height: 204px;"></td>
-			<td><img alt="" src="" style="width: 204px; height: 204px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/50b901d5-47ec-4504-bce1-122e8282284a/-/preview/" style="width: 204px; height: 204px;"></td>
 		</tr>
 		<tr>
 			<td>N = 3</td>
@@ -96,7 +96,7 @@
 
 <p>하나의 그룹은 두 개의 구슬 A와 B로 변한다. 구슬 A의 번호는 그룹에 들어있는 구슬의 개수이고, B는 그룹을 이루고 있는 구슬의 번호이다. 구슬은 다시 그룹의 순서대로 1번 칸부터 차례대로 A, B의 순서로 칸에 들어간다. 다음 그림은 구슬이 변화한 후이고, 색은 구분하기 위해 위의 그림에 있는 그룹의 색을 그대로 사용했다. 만약, 구슬이 칸의 수보다 많아 칸에 들어가지 못하는 경우 그러한 구슬은 사라진다.</p>
 
-<p style="text-align: center;"> <img alt="" src="" style="width: 300px; height: 299px;"></p>
+<p style="text-align: center;"> <img alt="" src="https://upload.acmicpc.net/c72823d6-95b2-424f-b9d8-84c423685b3d/-/preview/" style="width: 300px; height: 299px;"></p>
 
 <p>마법사 상어는 블리자드를 총 M번 시전했다. 시전한 마법의 정보가 주어졌을 때, 1×(폭발한 1번 구슬의 개수) + 2×(폭발한 2번 구슬의 개수) + 3×(폭발한 3번 구슬의 개수)를 구해보자.</p>
 
