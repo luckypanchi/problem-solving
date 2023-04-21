@@ -32,7 +32,6 @@
 | 백준 | 1167 | 트리의 지름 | [링크](https://www.acmicpc.net/problem/1167) | [참고](https://velog.io/@zioo/%ED%8A%B8%EB%A6%AC%EC%9D%98-%EC%A7%80%EB%A6%84-%EA%B5%AC%ED%95%98%EA%B8%B0) |
 | 백준 | 1158 | 요세푸스 문제 | [링크](https://www.acmicpc.net/problem/1158) | SSAFY |
 | 백준 | 2493 | 탑 | [링크](https://www.acmicpc.net/problem/2493) | SSAFY |
-| 백준 | 16926 | 배열 돌리기 1 | [링크](https://www.acmicpc.net/problem/16926) | SSAFY |
 | 백준 | 17471 | 게리맨더링 | [링크](https://www.acmicpc.net/problem/17471) | |
 | 백준 | 2939 | 설탕 배달 | [링크](https://www.acmicpc.net/problem/2839) | SSAFY |
 | 백준 | 1976 | 여행 가자 | [링크](https://www.acmicpc.net/problem/1976) | ⭐ |
