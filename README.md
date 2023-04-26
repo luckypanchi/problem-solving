@@ -5,7 +5,7 @@
 ### 📚 백준
 
 [![Solved.ac Profile](http://mazassumnida.wtf/api/v2/generate_badge?boj=codeer)](https://solved.ac/codeer/)
-![mazandi profile](http://mazandi.herokuapp.com/api?handle=codeer&theme=dark)
+[![mazandi profile](http://mazandi.herokuapp.com/api?handle=codeer&theme=dark)](https://solved.ac/codeer/)
 
 ### 💡 다시 풀어볼 문제
 
@@ -68,3 +68,7 @@
 | 백준 | 14003 | 가장 긴 증가하는 부분 수열 5 | [링크](https://www.acmicpc.net/problem/14003) | |
 | 백준 | 1208 | 부분수열의 합 2 | [링크](https://www.acmicpc.net/problem/1208) | |
 | 백준 | 10799 | 쇠막대기 | [링크](https://www.acmicpc.net/problem/10799) | |
+| 백준 | 6087 | 레이저 통신 | [링크](https://www.acmicpc.net/problem/6087) | |
+| 백준 | 12886 | 돌 그룹 | [링크](https://www.acmicpc.net/problem/12886) | |
+| 백준 | 16724 | 피리 부는 사나이 | [링크](https://www.acmicpc.net/problem/16724) | |
+| 백준 | 1644 | 소수의 연속합 | [링크](https://www.acmicpc.net/problem/1644) | |
