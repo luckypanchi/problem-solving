@@ -73,3 +73,5 @@
 | 백준 | 16724 | 피리 부는 사나이 | [링크](https://www.acmicpc.net/problem/16724) | |
 | 백준 | 1644 | 소수의 연속합 | [링크](https://www.acmicpc.net/problem/1644) | |
 | 백준 | 1806 | 부분합 | [링크](https://www.acmicpc.net/problem/1806) | |
+| 백준 | 12850 | 본대 산책2 | [링크](https://www.acmicpc.net/problem/12850) | |
+
