@@ -3,31 +3,24 @@ import sys
 input = sys.stdin.readline
 
 
-def main():
-    n, m = map(int, input().split())
-    matrix_from = [list(map(int, input().strip())) for _ in range(n)]
-    matrix_to = [list(map(int, input().strip())) for _ in range(n)]
+n, m = map(int, input().split())
+a = [list(map(int, input().strip())) for _ in range(n)]
+b = [list(map(int, input().strip())) for _ in range(n)]
 
-    def flip(y, x):
-        for i in range(y - 1, y + 2):
-            for j in range(x - 1, x + 2):
-                matrix_to[i][j] = 1 - matrix_to[i][j]
 
-    answer = 0
+answer = 0
 
-    for i in range(n - 2):
-        for j in range(m - 2):
-            if matrix_from[i][j] != matrix_to[i][j]:
+for y in range(n):
+    for x in range(m):
+        if y < n - 2 and x < m - 2:
+            if a[y][x] != b[y][x]:
                 answer += 1
-                flip(i + 1, j + 1)
-
-    for i in range(n):
-        for j in range(m):
-            if matrix_from[i][j] != matrix_to[i][j]:
+                for i in range(3):
+                    for j in range(3):
+                        a[y + i][x + j] = 1 - a[y + i][x + j]
+        else:
+            if a[y][x] != b[y][x]:
                 print(-1)
-                return
+                sys.exit()
 
-    print(answer)
-
-
-main()
+print(answer)
