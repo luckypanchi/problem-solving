@@ -12,7 +12,7 @@ for i in range(1, m):
     dp[0][i] += dp[0][i - 1]
 
 for i in range(1, n):
-    row_dp = [[dp[i][j], dp[i][j]] for j in range(m)]
+    row_dp = [[0, 0] for _ in range(m)]
 
     row_dp[0][0] = dp[i][0] + dp[i - 1][0]
     row_dp[-1][1] = dp[i][-1] + dp[i - 1][-1]
