@@ -1,61 +1,68 @@
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.LinkedList;
-import java.util.StringTokenizer;
+import java.util.*;
 
 public class Main {
 
-  public static void main(String[] args) throws Exception {
-    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    StringTokenizer st = new StringTokenizer(br.readLine());
-    int n = Integer.parseInt(st.nextToken());
-    int m = Integer.parseInt(st.nextToken());
-    ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
-    for (int i = 0; i < n + 1; i++) {
-      matrix.add(new ArrayList<Integer>());
-    }
+    static int n, m;
+    static ArrayList<Integer>[] list;
+    static int[] count;
+    static boolean[] visited;
+    static Queue<Integer> que;
 
-    for (int i = 0; i < m; i++) {
-      st = new StringTokenizer(br.readLine());
-      int a = Integer.parseInt(st.nextToken());
-      int b = Integer.parseInt(st.nextToken());
-      matrix.get(b).add(a);
-    }
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-    ArrayList<Integer> results = new ArrayList<>();
-    int max_cnt = Integer.MIN_VALUE;
-
-    for (int i = 1; i < n + 1; i++) {
-      boolean[] visited = new boolean[n + 1];
-      Deque<Integer> que = new LinkedList<>();
-      que.offer(i);
-      visited[i] = true;
-      int cnt = 0;
-
-      while (!que.isEmpty()) {
-        int curr = que.pollFirst();
-        for (int nxt : matrix.get(curr)) {
-          if (!visited[nxt]) {
-            cnt++;
-            que.offer(nxt);
-            visited[nxt] = true;
-          }
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
+        list = new ArrayList[n + 1];
+        count = new int[n + 1];
+        for (int i = 0; i <= n; i++) {
+            list[i] = new ArrayList<>();
         }
-      }
 
-      if (max_cnt < cnt) {
-        max_cnt = cnt;
-        results = new ArrayList<>();
-        results.add(i);
-      } else if (max_cnt == cnt) {
-        results.add(i);
-      }
+        for (int i = 0; i < m; i++) {
+            st = new StringTokenizer(br.readLine());
+            int start = Integer.parseInt(st.nextToken());
+            int end = Integer.parseInt(st.nextToken());
+            list[start].add(end);
+        }
+
+        for (int i = 1; i < n + 1; i++) {
+            bfs(i);
+        }
+
+        int max = Integer.MIN_VALUE;
+        for (int i = 1; i < n + 1; i++) {
+            max = Math.max(max, count[i]);
+        }
+
+        for (int i = 1; i < n + 1; i++) {
+            if (count[i] == max) {
+                System.out.print(i + " ");
+            }
+        }
+
     }
 
-    for (int r : results) {
-      System.out.print(r + " ");
+    private static void bfs(int start) {
+        que = new ArrayDeque<>();
+        visited = new boolean[n + 1];
+
+        que.add(start);
+        visited[start] = true;
+
+        while (!que.isEmpty()) {
+            int curr = que.poll();
+            for (Integer i : list[curr]) {
+                if (!visited[i]) {
+                    visited[i] = true;
+                    que.add(i);
+                    count[i]++;
+                }
+            }
+        }
     }
-  }
 }
