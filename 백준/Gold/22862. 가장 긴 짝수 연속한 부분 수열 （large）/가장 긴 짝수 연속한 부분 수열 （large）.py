@@ -16,8 +16,8 @@ while left < n and right < n:
         right = max(left, right)
         count = max(0, count - 1)
     elif numbers[right] % 2 == 0:
+        answer = max(answer, right + 1 - left - count)
         right += 1
-        answer = max(answer, right - left - count)
     elif count < k:
         right += 1
         count += 1
