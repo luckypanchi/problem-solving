@@ -23,8 +23,13 @@ def solution(n, costs):
     answer = 0
 
     parents = list(range(n))
+    count = 0
     for a, b, c in costs:
+        if count == n - 1:
+            break
+            
         if union(parents, a, b):
+            count += 1
             answer += c
 
     return answer
