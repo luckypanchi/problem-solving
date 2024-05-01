@@ -5,36 +5,36 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n, m;
-	static int[] result;
-	static StringBuilder sb;
+    static int n, m;
+    static int[] selected;
+    static StringBuilder sb = new StringBuilder();
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		sb = new StringBuilder();
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-		result = new int[m];
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
 
-		comb(0, 0);
+        n = Integer.parseInt(st.nextToken());
+        m = Integer.parseInt(st.nextToken());
 
-		System.out.println(sb);
+        selected = new int[m];
 
-	}
+        comb(0, 0);
 
-	private static void comb(int curr, int start) {
-		if (curr == m) {
-			for (int num : result) {
-				sb.append(num).append(" ");
-			}
-			sb.append("\n");
-			return;
-		}
+        System.out.println(sb);
+    }
 
-		for (int i = start; i < n; i++) {
-			result[curr] = i + 1;
-			comb(curr + 1, i + 1);
-		}
-	}
+    private static void comb(int curr, int start) {
+        if (curr == m) {
+            for (int i = 0; i < m; i++) {
+                sb.append(selected[i]).append(" ");
+            }
+            sb.append("\n");
+            return;
+        }
+
+        for (int i = start; i < n; i++) {
+            selected[curr] = i + 1;
+            comb(curr + 1, i + 1);
+        }
+    }
 }
