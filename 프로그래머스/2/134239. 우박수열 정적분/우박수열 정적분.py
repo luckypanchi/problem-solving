@@ -16,6 +16,11 @@ def solution(k, ranges):
 
     collatz = collatzGuess(k)
     n = len(collatz) - 1
+
+    areas = [0.0]
+    for x in range(1, n + 1):
+        areas.append(areas[-1] + 0.5 * (collatz[x - 1] + collatz[x]))
+
     answer = []
 
     for start, end in ranges:
@@ -25,10 +30,6 @@ def solution(k, ranges):
             answer.append(-1.0)
             continue
 
-        result = 0.0
-        for x in range(start, end):
-            result += 0.5 * (collatz[x] + collatz[x + 1])
-
-        answer.append(result)
+        answer.append(areas[end] - areas[start])
 
     return answer
