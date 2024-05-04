@@ -1,11 +1,13 @@
 import sys
-from copy import deepcopy
 
 input = sys.stdin.readline
 
+INF = float("INF")
+
 dx = (1, 0, -1, 0)
-dy = (0, -1, 0, 1)
-direction = [
+dy = (0, 1, 0, -1)
+
+directions = [
     [],
     [[0], [1], [2], [3]],
     [[0, 2], [1, 3]],
@@ -15,50 +17,50 @@ direction = [
 ]
 
 
-n, m = map(int, input().split())
-matrix = [list(map(int, input().split())) for _ in range(n)]
-
-cctv = []
-
-for i in range(n):
-    for j in range(m):
-        if matrix[i][j] in (1, 2, 3, 4, 5):
-            cctv.append((i, j))
-
-
-def go(arr, y, x, d):
-    for i in d:
-        ny = y + dy[i]
-        nx = x + dx[i]
-        while 0 <= ny < n and 0 <= nx < m and arr[ny][nx] != 6:
-            if arr[ny][nx] == 0:
-                arr[ny][nx] = "#"
-            ny += dy[i]
-            nx += dx[i]
-
-
-answer = int(1e9)
-length = len(cctv)
-
-
-def solve(idx, maps):
+def solve(curr, prevCount):
     global answer
-
-    if idx == length:
-        cnt = 0
-        for arr in maps:
-            cnt += arr.count(0)
-        answer = min(answer, cnt)
+    if curr == len(cameras):
+        answer = min(answer, totalCount - prevCount)
         return
 
-    y, x = cctv[idx]
+    cameraType, y, x = cameras[curr]
 
-    for d in direction[maps[y][x]]:
-        new_map = deepcopy(maps)
-        go(new_map, y, x, d)
-        solve(idx + 1, new_map)
+    for dirList in directions[cameraType]:
+        marked = []
+        count = 0
+        for d in dirList:
+            ny = y
+            nx = x
+            while (
+                0 <= ny + dy[d] < n and 0 <= nx + dx[d] < m and board[ny + dy[d]][nx + dx[d]] != 6
+            ):
+                ny += dy[d]
+                nx += dx[d]
+                if board[ny][nx] == 0:
+                    board[ny][nx] = "#"
+                    marked.append((ny, nx))
+                    count += 1
+
+        solve(curr + 1, prevCount + count)
+
+        for ny, nx in marked:
+            board[ny][nx] = 0
 
 
-solve(0, matrix)
+n, m = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(n)]
+
+cameras = []
+totalCount = 0
+for i in range(n):
+    for j in range(m):
+        if 1 <= board[i][j] < 6:
+            cameras.append((board[i][j], i, j))
+        elif board[i][j] == 0:
+            totalCount += 1
+
+answer = INF
+
+solve(0, 0)
 
 print(answer)
