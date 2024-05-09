@@ -2,27 +2,24 @@ import sys
 
 input = sys.stdin.readline
 
-answer = 0
+
+def solve(curr, prevSum):
+    if curr == n:
+        return prevSum == s
+
+    result = 0
+    result += solve(curr + 1, prevSum + numbers[curr])
+    result += solve(curr + 1, prevSum)
+
+    return result
 
 
-def go(arr, goal, idx, total, curr):
-    global answer
-    if idx == len(arr):
-        if total == goal and curr != 0:
-            answer += 1
-        return
+n, s = map(int, input().split())
+numbers = list(map(int, input().split()))
 
-    go(arr, goal, idx + 1, total + arr[idx], curr + 1)
-    go(arr, goal, idx + 1, total, curr)
+answer = solve(0, 0)
 
+if s == 0:
+    answer -= 1
 
-def main():
-    n, s = map(int, input().split())
-    arr = list(map(int, input().split()))
-
-    go(arr, s, 0, 0, 0)
-
-    print(answer)
-
-
-main()
+print(answer)
