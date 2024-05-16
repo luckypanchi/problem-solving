@@ -1,21 +1,30 @@
 import sys
 
+sys.setrecursionlimit(10**7)
+
 input = sys.stdin.readline
 
 
+INF = float("inf")
+
+
+def solve(curr):
+    if curr > n:
+        return -INF
+
+    if curr == n:
+        return 0
+
+    if dp[curr] != -1:
+        return dp[curr]
+
+    dp[curr] = max(solve(curr + 1), solve(curr + consults[curr][0]) + consults[curr][1])
+
+    return dp[curr]
+
+
 n = int(input())
-t, p = [0], [0]
-for _ in range(n):
-    a, b = map(int, input().split())
-    t.append(a)
-    p.append(b)
+consults = [list(map(int, input().split())) for _ in range(n)]
+dp = [-1] * n
 
-d = [0] * (n + 2)
-
-for i in range(1, n + 1):
-    if d[i] < d[i - 1]:
-        d[i] = d[i - 1]
-    if i + t[i] < n + 2:
-        d[i + t[i]] = max(d[i + t[i]], d[i] + p[i])
-
-print(max(d))
+print(solve(0))
