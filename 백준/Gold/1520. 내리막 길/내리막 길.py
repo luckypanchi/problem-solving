@@ -1,35 +1,39 @@
 import sys
 
-sys.setrecursionlimit(10**6)
-
 input = sys.stdin.readline
+
+INF = float("inf")
 
 dx = (1, 0, -1, 0)
 dy = (0, 1, 0, -1)
 
 
-n, m = map(int, input().split())
-board = [list(map(int, input().split())) for _ in range(n)]
-
-dp = [[-1] * m for _ in range(n)]
-
-
-def dfs(y, x):
-    if y == n - 1 and x == m - 1:
+def solve(curr):
+    if curr == n * m - 1:
         return 1
 
-    if dp[y][x] != -1:
-        return dp[y][x]
+    if dp[curr] != -1:
+        return dp[curr]
 
-    dp[y][x] = 0
+    y = curr // m
+    x = curr % m
 
+    result = 0
     for i in range(4):
         ny = y + dy[i]
         nx = x + dx[i]
+
         if 0 <= ny < n and 0 <= nx < m and board[ny][nx] < board[y][x]:
-            dp[y][x] += dfs(ny, nx)
+            next = ny * m + nx
+            result += solve(next)
 
-    return dp[y][x]
+    dp[curr] = result
+    return dp[curr]
 
 
-print(dfs(0, 0))
+n, m = map(int, input().split())
+board = [list(map(int, input().split())) for _ in range(n)]
+
+dp = [-1] * (n * m)
+
+print(solve(0))
