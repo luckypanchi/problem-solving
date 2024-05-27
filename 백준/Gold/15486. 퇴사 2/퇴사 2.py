@@ -1,30 +1,22 @@
 import sys
 
-sys.setrecursionlimit(10**7)
-
 input = sys.stdin.readline
 
 
-INF = float("inf")
-
-
-def solve(curr):
-    if curr > n:
-        return -INF
-
-    if curr == n:
-        return 0
-
-    if dp[curr] != -1:
-        return dp[curr]
-
-    dp[curr] = max(solve(curr + 1), solve(curr + consults[curr][0]) + consults[curr][1])
-
-    return dp[curr]
-
-
 n = int(input())
-consults = [list(map(int, input().split())) for _ in range(n)]
-dp = [-1] * n
 
-print(solve(0))
+t = [0]
+p = [0]
+for _ in range(n):
+    a, b = map(int, input().split())
+    t.append(a)
+    p.append(b)
+
+dp = [0] * (n + 2)
+for day in range(1, n + 1):
+    if day + 1 < n + 2:
+        dp[day + 1] = max(dp[day + 1], dp[day])
+    if day + t[day] < n + 2:
+        dp[day + t[day]] = max(dp[day + t[day]], dp[day] + p[day])
+
+print(dp[-1])
