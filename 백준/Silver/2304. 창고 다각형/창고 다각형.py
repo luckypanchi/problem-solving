@@ -2,22 +2,23 @@ import sys
 
 input = sys.stdin.readline
 
-INF = float("inf")
-
 
 n = int(input())
-warehouses = [list(map(int, input().split())) for _ in range(n)]
+prefixSum = [0] * 1002
+suffixSum = [0] * 1002
 
-maxHeight = sorted(warehouses, key=lambda x: x[1])[-1][1]
+for _ in range(n):
+    x, h = map(int, input().split())
+    prefixSum[x] = h
+    suffixSum[x] = h
+
+for i in range(1, 1002):
+    j = 1000 - i + 1
+    prefixSum[i] = max(prefixSum[i], prefixSum[i - 1])
+    suffixSum[j] = max(suffixSum[j], suffixSum[j + 1])
 
 answer = 0
-for height in range(1, maxHeight + 1):
-    left = INF
-    right = 0
-    for pos, h in warehouses:
-        if height <= h:
-            left = min(left, pos)
-            right = max(right, pos + 1)
-    answer += right - left
+for i in range(1, 1001):
+    answer += min(prefixSum[i], suffixSum[i])
 
 print(answer)
