@@ -6,20 +6,13 @@ INF = float("inf")
 
 
 n, k = map(int, input().split())
-numbers = list(map(int, input().split()))
+temps = [0] + list(map(int, input().split()))
+prefixSum = [0] * (n + 1)
+for i in range(1, n + 1):
+    prefixSum[i] = temps[i] + prefixSum[i - 1]
 
-start = 0
-end = k - 1
-
-answer = sum(numbers[:k])
-curr = sum(numbers[:k])
-
-while end + 1 < n:
-    curr -= numbers[start]
-    start += 1
-    end += 1
-    curr += numbers[end]
-    answer = max(answer, curr)
-
+answer = -INF
+for i in range(k, n + 1):
+    answer = max(answer, prefixSum[i] - prefixSum[i - k])
 
 print(answer)
