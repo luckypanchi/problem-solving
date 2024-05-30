@@ -2,28 +2,22 @@ import sys
 
 input = sys.stdin.readline
 
+
 n, m = map(int, input().split())
-matrix = []
+board = [[0] * (n + 1)] + [[0] + list(map(int, input().split())) for _ in range(n)]
 
-for _ in range(n):
-    row = list(map(int, input().split()))
-    for i in range(1, n):
-        row[i] += row[i - 1]
-    matrix.append(row)
-
-answers = []
+prefixSum = [[0] * (n + 1) for _ in range(n + 1)]
+for i in range(1, n + 1):
+    for j in range(1, n + 1):
+        prefixSum[i][j] = (
+            board[i][j] + prefixSum[i - 1][j] + prefixSum[i][j - 1] - prefixSum[i - 1][j - 1]
+        )
 
 for _ in range(m):
-    y1, x1, y2, x2 = map(int, input().split())
-    result = 0
-
-    if x1 > 1:
-        for y in range(y1 - 1, y2):
-            result += matrix[y][x2 - 1] - matrix[y][x1 - 2]
-    else:
-        for y in range(y1 - 1, y2):
-            result += matrix[y][x2 - 1]
-    answers.append(result)
-
-for a in answers:
-    print(a)
+    x1, y1, x2, y2 = map(int, input().split())
+    print(
+        prefixSum[x2][y2]
+        - prefixSum[x1 - 1][y2]
+        - prefixSum[x2][y1 - 1]
+        + prefixSum[x1 - 1][y1 - 1]
+    )
