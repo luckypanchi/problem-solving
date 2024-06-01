@@ -5,22 +5,22 @@ input = sys.stdin.readline
 
 
 n, k = map(int, input().split())
-array = list(map(int, input().split()))
-accArray = [0]
-for i in range(n):
-    accArray.append(accArray[-1] + array[i])
+numbers = [0] + list(map(int, input().split()))
 
-indexCounter = defaultdict(int)
+prefixSum = [0] * (n + 1)
+for i in range(1, n + 1):
+    prefixSum[i] = prefixSum[i - 1] + numbers[i]
+
+counter = defaultdict(int)
 answer = 0
 
 for i in range(n, 0, -1):
-    curr = accArray[i]
+    v = prefixSum[i]
 
-    if curr == k:
+    if v == k:
         answer += 1
 
-    target = curr + k
-    answer += indexCounter[target]
-    indexCounter[curr] += 1
+    answer += counter[v + k]
+    counter[v] += 1
 
 print(answer)
