@@ -6,26 +6,26 @@ INF = float("inf")
 
 
 n = int(input())
-numbers = list(map(int, input().split()))
+numbers = sorted(list(map(int, input().split())))
 
 diff = INF
-left = 0
-right = n - 1
+start = 0
+end = n - 1
 
 answer = []
 
-while left < right:
-    curr_v = numbers[left] + numbers[right]
+while start < end:
+    s = numbers[start] + numbers[end]
 
-    if abs(curr_v) < diff:
-        answer = [numbers[left], numbers[right]]
-        diff = abs(curr_v)
+    if abs(s) < diff:
+        answer = [numbers[start], numbers[end]]
+        diff = abs(s)
 
-    if curr_v == 0:
+    if s == 0:
         break
-    elif curr_v < 0:
-        left += 1
+    elif s < 0:
+        start += 1
     else:
-        right -= 1
+        end -= 1
 
 print(*answer)
