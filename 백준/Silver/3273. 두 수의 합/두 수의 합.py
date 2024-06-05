@@ -7,15 +7,17 @@ n = int(input())
 numbers = sorted(list(map(int, input().split())))
 x = int(input())
 
-start, end = 0, n - 1
 answer = 0
-
+start = 0
+end = n - 1
 while start < end:
-    for i in range(end, start, -1):
-        if numbers[start] + numbers[i] == x:
-            end = i
-            answer += 1
-            break
-    start += 1
+    if numbers[start] + numbers[end] == x:
+        answer += 1
+        start += 1
+        end -= 1
+    elif numbers[start] + numbers[end] < x:
+        start += 1
+    else:
+        end -= 1
 
 print(answer)
