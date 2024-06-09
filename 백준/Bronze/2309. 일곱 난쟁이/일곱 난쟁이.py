@@ -1,26 +1,28 @@
 import sys
 
-def main():
-    li = []
-    for _ in range(9):
-        li.append(int(sys.stdin.readline()))
-    
-    total = sum(li)
-    tmp1 = tmp2 = 0
+input = sys.stdin.readline
 
-    for i in range(8):
-        for j in range(i+1, 9):
-            if total - li[i] - li[j] == 100:
-                tmp1 = li[i]
-                tmp2 = li[j]
-    
-    li.remove(tmp1)
-    li.remove(tmp2)
 
-    li.sort()
+heights = [int(input()) for _ in range(9)]
+heights.sort()
 
-    for i in li:
-        print(i)
 
-if __name__ == "__main__":
-    main()
+left = 0
+right = len(heights) - 1
+currSum = sum(heights) - heights[left] - heights[right]
+
+while left < right:
+    if currSum == 100:
+        break
+    elif currSum < 100:
+        currSum += heights[right]
+        right -= 1
+        currSum -= heights[right]
+    else:
+        currSum += heights[left]
+        left += 1
+        currSum -= heights[left]
+
+for i in range(len(heights)):
+    if i != left and i != right:
+        print(heights[i])
