@@ -6,21 +6,21 @@ INF = float("inf")
 
 
 n = int(input())
-numbers = sorted(list(map(int, input().split())))
+snowballs = sorted(list(map(int, input().split())))
+
 answer = INF
 
+for start1 in range(n):
+    for end1 in range(start1 + 3, n):
+        start2 = start1 + 1
+        end2 = end1 - 1
+        while start2 < end2:
+            d = snowballs[start1] + snowballs[end1] - (snowballs[start2] + snowballs[end2])
+            answer = min(answer, abs(d))
 
-for i in range(n):
-    for j in range(i + 3, n):
-        left = i + 1
-        right = j - 1
-        while left < right:
-            diff = numbers[i] + numbers[j] - (numbers[left] + numbers[right])
-            answer = min(answer, abs(diff))
-
-            if diff < 0:
-                right -= 1
+            if d < 0:
+                end2 -= 1
             else:
-                left += 1
+                start2 += 1
 
 print(answer)
