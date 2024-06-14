@@ -3,34 +3,27 @@ import sys
 input = sys.stdin.readline
 
 
-def check(arr, length, pivot):
-    cnt = 0
-    for lan in arr:
-        cnt += lan // length
-    return pivot <= cnt
+def count(pivot):
+    result = 0
+    for cable in cables:
+        result += cable // pivot
+    return result
 
 
-def main():
-    k, n = map(int, input().split())
-    lans = [int(input()) for _ in range(k)]
+k, n = map(int, input().split())
+cables = sorted([int(input()) for _ in range(k)])
 
-    min_length = 1
-    max_length = max(lans)
+left = 1
+right = cables[-1]
+answer = 0
 
-    l = min_length
-    r = max_length
-    answer = 0
+while left <= right:
+    mid = (left + right) // 2
+    c = count(mid)
+    if c < n:
+        right = mid - 1
+    else:
+        answer = mid
+        left = mid + 1
 
-    while l <= r:
-        mid = (l + r) // 2
-        if check(lans, mid, n):
-            if answer < mid:
-                answer = mid
-            l = mid + 1
-        else:
-            r = mid - 1
-
-    print(answer)
-
-
-main()
+print(answer)
