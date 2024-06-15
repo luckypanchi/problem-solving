@@ -3,22 +3,28 @@ import sys
 input = sys.stdin.readline
 
 
+def count(target):
+    result = 0
+    for i in range(1, n + 1):
+        result += min(target // i, n)
+    return result
+
+
 n = int(input())
 k = int(input())
 
-start, end = 1, k
+left = 1
+right = n * n
+answer = 0
 
-while start <= end:
-    mid = (start + end) // 2
+while left <= right:
+    mid = (left + right) // 2
+    c = count(mid)
 
-    tmp = 0
-    for i in range(1, n + 1):
-        tmp += min(mid // i, n)
-
-    if tmp >= k:
+    if k <= c:
         answer = mid
-        end = mid - 1
+        right = mid - 1
     else:
-        start = mid + 1
+        left = mid + 1
 
 print(answer)
