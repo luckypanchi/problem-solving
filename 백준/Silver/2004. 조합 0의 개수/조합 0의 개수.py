@@ -3,18 +3,18 @@ import sys
 input = sys.stdin.readline
 
 
+def count(target, number):
+    result = 0
+    num = number
+    while num <= target:
+        result += target // num
+        num *= number
+    return result
+
+
 n, m = map(int, input().split())
 
+twoCount = count(n, 2) - count(n - m, 2) - count(m, 2)
+fiveCount = count(n, 5) - count(n - m, 5) - count(m, 5)
 
-def count(target, number):
-    cnt = 0
-    while target != 0:
-        target = target // number
-        cnt += target
-    return cnt
-
-
-two_cnt = count(n, 2) - count(n - m, 2) - count(m, 2)
-five_cnt = count(n, 5) - count(n - m, 5) - count(m, 5)
-
-print(min(two_cnt, five_cnt))
+print(min(twoCount, fiveCount))
