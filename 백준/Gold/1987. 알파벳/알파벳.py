@@ -1,34 +1,35 @@
 import sys
-from collections import deque
 
-dx = [1, 0, -1, 0]
-dy = [0, -1, 0, 1]
+input = sys.stdin.readline
 
-def main():
-    m, n = map(int, sys.stdin.readline().split())
-    matrix = [list(map(lambda x: ord(x)-65, sys.stdin.readline().strip())) for _ in range(m)]
-
-    def dfs(start, tmp):        
-        nonlocal answer
-        y, x = start
-        answer = max(answer, tmp)
-        for i in range(4):
-            nx = x + dx[i]
-            ny = y + dy[i]
-            if 0<=nx<n and 0<=ny<m and visited[matrix[ny][nx]] == 0:
-                visited[matrix[ny][nx]] = 1
-                dfs((ny, nx), tmp+1)
-                visited[matrix[ny][nx]] = 0
-
-    answer = 1
-    visited = [0]*26
-    visited[matrix[0][0]] = 1
-    dfs((0,0), answer)
-
-    print(answer)
+dx = (1, 0, -1, 0)
+dy = (0, 1, 0, -1)
 
 
+def dfs(y, x):
+    result = 0
+    for i in range(4):
+        ny = y + dy[i]
+        nx = x + dx[i]
+        if 0 <= ny < r and 0 <= nx < c:
+            nextCharIndex = ord(board[ny][nx]) - ord("A")
+            if visited[nextCharIndex]:
+                continue
+
+            visited[nextCharIndex] = True
+            result = max(result, 1 + dfs(ny, nx))
+            visited[nextCharIndex] = False
+
+    return result
 
 
-if __name__ == "__main__":
-    main()
+r, c = map(int, input().split())
+board = [list(input().strip()) for _ in range(r)]
+
+visited = [False] * 26
+charIndex = ord(board[0][0]) - ord("A")
+visited[charIndex] = True
+
+answer = dfs(0, 0) + 1
+
+print(answer)
