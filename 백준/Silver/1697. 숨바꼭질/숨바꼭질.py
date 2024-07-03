@@ -1,27 +1,30 @@
 import sys
 from collections import deque
 
-def main():
-    n, k = map(int, sys.stdin.readline().split())
-    
+input = sys.stdin.readline
+
+
+def bfs(start):
     que = deque()
-    que.append((n, 0))
-    MAX = 100001
-    visited = [0]*MAX
+    que.append(start)
+
+    visited = [-1] * 100001
+    visited[start] = 0
+
     while que:
-        p, cnt = que.popleft()
-        visited[p] = 1                                            # 횟수를 어디서 카운트할 것인가
-        if p == k:
-            answer = cnt   
-            break
-        
-        if 0<=p-1<MAX and visited[p-1] == 0: 
-            que.append((p-1, cnt+1))
-        if 0<=p+1<MAX and visited[p+1] == 0: 
-            que.append((p+1, cnt+1))
-        if 0<=2*p<MAX and visited[2*p] == 0: 
-            que.append((2*p, cnt+1))
-    
-    print(answer)
-if __name__ == "__main__":
-    main()
+        curr = que.popleft()
+
+        if curr == k:
+            return visited[curr]
+
+        for nxt in [curr + 1, curr - 1, curr * 2]:
+            if 0 <= nxt < 100001 and visited[nxt] == -1:
+                visited[nxt] = visited[curr] + 1
+                que.append(nxt)
+
+
+n, k = map(int, input().split())
+
+answer = bfs(n)
+
+print(answer)
