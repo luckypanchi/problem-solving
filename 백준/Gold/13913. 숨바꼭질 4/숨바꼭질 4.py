@@ -1,40 +1,40 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
 
-def main():
-    start, dest = map(int, input().split())
-    visited = [-1]*100001
-    answer = []
-    visited[start] = start
-
-    def bfs():
-        nonlocal answer
-
-        que = deque()
-        que.append(start)
-
-        while que:
-            curr = que.popleft()
-
-            if curr == dest: 
-                idx = curr
-                while idx != start:
-                    answer.append(idx)
-                    idx = visited[idx]
-                answer.append(start)
-                break
-
-            for point in (curr-1, curr+1, 2*curr):
-                if 0<=point<100001 and visited[point] == -1:
-                    visited[point] = curr
-                    que.append(point)
-
-    bfs()
-
-    print(len(answer)-1)
-    print(*answer[::-1])
+input = sys.stdin.readline
 
 
-if __name__ == "__main__":
-    main()
+def bfs(start):
+    que = deque()
+    que.append(start)
+
+    visited = [[-1, 0] for _ in range(100001)]
+    visited[start][0] = 0
+    visited[start][1] = -1
+
+    while que:
+        curr = que.popleft()
+
+        if curr == k:
+            return visited
+
+        for nxt in [curr + 1, curr - 1, curr * 2]:
+            if 0 <= nxt < 100001 and visited[nxt][0] == -1:
+                visited[nxt][0] = visited[curr][0] + 1
+                visited[nxt][1] = curr
+                que.append(nxt)
+
+
+n, k = map(int, input().split())
+
+visited = bfs(n)
+
+print(visited[k][0])
+
+answers = []
+curr = k
+while curr != -1:
+    answers.append(curr)
+    curr = visited[curr][1]
+
+print(*answers[::-1])
