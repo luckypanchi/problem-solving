@@ -3,30 +3,34 @@ from collections import defaultdict, deque
 
 input = sys.stdin.readline
 
-dy = (-2,)
-
 
 n, t = map(int, input().split())
-available = defaultdict(list)
+graph = defaultdict(list)
+
 for _ in range(n):
     x, y = map(int, input().split())
-    available[x].append(y)
+    graph[x].append(y)
 
-visited = defaultdict(list)
-
+visited = set()
 que = deque()
+
 que.append((0, 0, 0))
+visited.add((0, 0))
+
+answer = -1
 while que:
-    x, y, cnt = que.popleft()
+    x, y, count = que.popleft()
 
     if y == t:
-        print(cnt)
-        sys.exit()
+        answer = count
+        break
 
-    for nx in range(x - 2, x + 3):
-        for ny in range(y - 2, y + 3):
-            if nx in available and ny in available[nx] and ny not in visited[nx]:
-                visited[nx].append(ny)
-                que.append((nx, ny, cnt + 1))
+    for dx in range(-2, 3):
+        for dy in range(-2, 3):
+            nx = x + dx
+            ny = y + dy
+            if (nx, ny) not in visited and nx in graph and ny in graph[nx]:
+                visited.add((nx, ny))
+                que.append((nx, ny, count + 1))
 
-print(-1)
+print(answer)
