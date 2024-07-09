@@ -1,42 +1,36 @@
 import sys
 from collections import deque
 
-dx = [1, 2, 2, 1, -1, -2, -2, -1]
-dy = [2, 1, -1, -2, -2, -1, 1, 2]
+input = sys.stdin.readline
 
-def main():
-    testcase = int(sys.stdin.readline())
-    result = []
-    for _ in range(testcase):
-        length = int(sys.stdin.readline())
-        s1, s2 = map(int, sys.stdin.readline().split())
-        d1, d2 = map(int, sys.stdin.readline().split())
-        cnt = [[0]*length for _ in range(length)]
+dy = (-1, -2, -2, -1, 1, 2, 2, 1)
+dx = (2, 1, -1, -2, -2, -1, 1, 2)
 
-        if s1 == d1 and s2 == d2:
-            result.append(0)
-            continue
 
-        else: 
-            def bfs():
-                que = deque()
-                que.append((s1, s2))
-                while que:
-                    x, y = que.popleft()
-                    for i in range(8):
-                        nx = x + dx[i]
-                        ny = y + dy[i]
-                        if 0<=nx<length and 0<=ny<length and cnt[ny][nx] == 0:
-                            que.append((nx, ny))
-                            cnt[ny][nx] = cnt[y][x] + 1
-                            if nx == d1 and ny == d2:
-                                return
-            bfs()
+def bfs():
+    visited = [[-1] * n for _ in range(n)]
+    que = deque()
 
-            result.append(cnt[d2][d1])
-    
-    for i in result:
-        print(i, end="\n")
+    visited[startY][startX] = 0
+    que.append((startY, startX))
 
-if __name__ == "__main__":
-    main()
+    while que:
+        y, x = que.popleft()
+
+        if (y, x) == (destY, destX):
+            return visited[y][x]
+
+        for i in range(8):
+            ny = y + dy[i]
+            nx = x + dx[i]
+            if 0 <= ny < n and 0 <= nx < n and visited[ny][nx] == -1:
+                visited[ny][nx] = visited[y][x] + 1
+                que.append((ny, nx))
+
+
+tc = int(input())
+for _ in range(tc):
+    n = int(input())
+    startY, startX = map(int, input().split())
+    destY, destX = map(int, input().split())
+    print(bfs())
