@@ -1,27 +1,26 @@
 import sys
+from collections import defaultdict
 
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**7)
 
 input = sys.stdin.readline
 
 
+def dfs(curr, prev):
+    parents[curr] = prev
+    for nextNode in graph[curr]:
+        if nextNode != prev:
+            dfs(nextNode, curr)
+
+
 n = int(input())
-matrix = [[] * (n + 1) for _ in range(n + 1)]
+graph = defaultdict(list)
 for _ in range(n - 1):
     a, b = map(int, input().split())
-    matrix[b].append(a)
-    matrix[a].append(b)
+    graph[a].append(b)
+    graph[b].append(a)
 
-answer = [0] * (n + 1)
+parents = [-1] * (n + 1)
+dfs(1, 0)
 
-
-def dfs(num):
-    for i in matrix[num]:
-        if answer[i] == 0:
-            answer[i] = num
-            dfs(i)
-
-
-dfs(1)
-for i in range(2, n + 1):
-    print(answer[i])
+print(*parents[2:], sep="\n")
