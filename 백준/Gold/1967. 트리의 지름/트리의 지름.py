@@ -1,39 +1,41 @@
 import sys
 from collections import defaultdict
+import heapq
 
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**7)
 
 input = sys.stdin.readline
 
 
-def dfs(node):
-    if not node in d:
+def dfs(curr, prev):
+    global answer
+
+    if len(graph[curr]) == 0:
         return 0
 
-    results = []
+    h = []
+    for nextNode, w in graph[curr]:
+        if nextNode == prev:
+            continue
 
-    for dest, cost in d[node]:
-        results.append(cost + dfs(dest))
+        heapq.heappush(h, -(w + dfs(nextNode, curr)))
 
-    if len(results) == 1:
-        answers.append(results[0])
-    else:
-        results.sort(reverse=True)
-        answers.append(results[0] + results[1])
+    maxValue = -heapq.heappop(h)
+    if len(h) == 0:
+        answer = max(answer, maxValue)
+    elif 0 < len(h):
+        answer = max(answer, maxValue - heapq.heappop(h))
 
-    return results[0]
+    return maxValue
+
 
 n = int(input())
-if n == 1:
-    print(0)
-    sys.exit()
-
-d = defaultdict(list)
+graph = defaultdict(list)
 for _ in range(n - 1):
-    start, dest, cost = map(int, input().split())
-    d[start].append((dest, cost))
+    a, b, c = map(int, input().split())
+    graph[a].append((b, c))
 
-answers = []
+answer = 0
+dfs(1, 0)
 
-dfs(1)
-print(max(answers))
+print(answer)
