@@ -1,46 +1,30 @@
 import sys
 from collections import defaultdict
 
-sys.setrecursionlimit(10**6)
+sys.setrecursionlimit(10**7)
 
 input = sys.stdin.readline
 
 
-def set_depth(parent, d):
-    depth[parent] = d
+def dfs(curr, prev):
+    for nextNode in graph[curr]:
+        if nextNode == prev:
+            continue
 
-    for child in graph[parent]:
-        if depth[child] == -1:
-            set_depth(child, d + 1)
-
-
-def get_subtree_size(root):
-    if size[root] != 0:
-        return
-
-    size[root] = 1
-
-    for child in graph[root]:
-        if depth[root] < depth[child]:
-            get_subtree_size(child)
-            size[root] += size[child]
+        dfs(nextNode, curr)
+        subtreeSize[curr] += subtreeSize[nextNode]
 
 
 n, r, q = map(int, input().split())
-
 graph = defaultdict(list)
-depth = [-1] * (n + 1)
-size = [0] * (n + 1)
-
 for _ in range(n - 1):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
+    a, b = map(int, input().split())
+    graph[a].append(b)
+    graph[b].append(a)
 
-
-set_depth(r, 0)
+subtreeSize = [1] * (n + 1)
+dfs(r, 0)
 
 for _ in range(q):
-    root = int(input())
-    get_subtree_size(root)
-    print(size[root])
+    u = int(input())
+    print(subtreeSize[u])
