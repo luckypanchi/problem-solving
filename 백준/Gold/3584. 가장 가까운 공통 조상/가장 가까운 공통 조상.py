@@ -3,12 +3,13 @@ import sys
 input = sys.stdin.readline
 
 
-def getParents(start):
-    result = []
-    while start != -1:
-        result.append(start)
-        start = parents[start]
-    return result
+def getParents(node):
+    results = []
+    while node != -1:
+        results.append(node)
+        node = parents[node]
+
+    return results
 
 
 tc = int(input())
@@ -20,6 +21,7 @@ for _ in range(tc):
         parents[b] = a
 
     node1, node2 = map(int, input().split())
+
     parents1 = getParents(node1)
     parents2 = getParents(node2)
 
@@ -27,6 +29,7 @@ for _ in range(tc):
     while parents1 and parents2:
         p1 = parents1.pop()
         p2 = parents2.pop()
+
         if p1 == p2:
             answer = p1
         else:
