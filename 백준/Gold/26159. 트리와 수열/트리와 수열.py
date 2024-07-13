@@ -22,10 +22,19 @@ def dfs(curr, prev):
         if nextNode == prev:
             continue
 
-        c = cnt[nextNode] * (n - cnt[nextNode])
+        c = (cnt[curr] - cnt[nextNode]) * cnt[nextNode]
         results.append(c)
 
+        cnt[curr] -= cnt[nextNode]
+        cnt[nextNode] += cnt[curr]
         dfs(nextNode, curr)
+        cnt[nextNode] -= cnt[curr]
+        cnt[curr] += cnt[nextNode]
+
+        # c = cnt[nextNode] * (n - cnt[nextNode])
+        # results.append(c)
+
+        # dfs(nextNode, curr)
 
 
 n = int(input())
