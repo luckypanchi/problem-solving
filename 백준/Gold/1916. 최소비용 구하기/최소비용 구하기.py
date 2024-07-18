@@ -26,7 +26,7 @@ def dijkstra(start, dest):
         visited[curr] = True
 
         for nextNode, cost in graph[curr]:
-            if not visited[nextNode] and dist[curr] + cost < dist[nextNode]:
+            if dist[curr] + cost < dist[nextNode]:
                 dist[nextNode] = dist[curr] + cost
 
     return dist[dest]
