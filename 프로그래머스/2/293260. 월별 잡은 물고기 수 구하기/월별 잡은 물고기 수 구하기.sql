@@ -1,0 +1,4 @@
+SELECT count(*) FISH_COUNT, MONTH(time) MONTH
+FROM fish_info
+GROUP BY MONTH(time)
+ORDER BY MONTH;
