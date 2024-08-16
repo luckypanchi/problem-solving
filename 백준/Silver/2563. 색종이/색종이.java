@@ -1,38 +1,60 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
+  static StringBuilder sb = new StringBuilder();
+  static int n;
+  static int[][] papers, board;
 
-		int[][] background = new int[101][101];
-		int n = Integer.parseInt(br.readLine());
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			int x = Integer.parseInt(st.nextToken());
-			int y = Integer.parseInt(st.nextToken());
-			for (int nx = x; nx < x + 10; nx++) {
-				for (int ny = y; ny < y + 10; ny++) {
-					background[nx][ny] = 1;
-				}
-			}
-		}
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		int answer = 0;
-		for (int i = 1; i < 101; i++) {
-			for (int j = 1; j < 101; j++) {
-				if (background[i][j] == 1) {
-					answer++;
-				}
-			}
-		}
+    for (int[] paper : papers) {
+      for (int x = paper[0]; x < paper[0] + 10; x++) {
+        for (int y = paper[1]; y < paper[1] + 10; y++) {
+          board[x][y] = 1;
+        }
+      }
+    }
 
-		System.out.println(answer);
-	}
+    int answer = 0;
+    for (int x = 0; x < 101; x++) {
+      for (int y = 0; y < 101; y++) {
+        answer += board[x][y];
+      }
+    }
+
+    sb.append(answer);
+
+    output();
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st;
+
+    n = Integer.parseInt(br.readLine());
+    papers = new int[n][2];
+    for (int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      papers[i][0] = Integer.parseInt(st.nextToken());
+      papers[i][1] = Integer.parseInt(st.nextToken());
+    }
+
+    board = new int[101][101];
+
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
