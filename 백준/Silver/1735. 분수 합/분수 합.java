@@ -1,0 +1,51 @@
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.util.StringTokenizer;
+
+public class Main {
+
+  static StringBuilder sb = new StringBuilder();
+  static int a, b, c, d;
+
+  public static void main(String[] args) throws IOException {
+    setUp();
+
+    int n = a * d + b * c;
+    int m = b * d;
+
+    int gcd = gcd(n, m);
+
+    sb.append(n / gcd).append(" ").append(m / gcd);
+
+    output();
+  }
+
+  private static int gcd(int num1, int num2) {
+    if (num2 == 0) {
+      return num1;
+    } else {
+      return gcd(num2, num1 % num2);
+    }
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    a = Integer.parseInt(st.nextToken());
+    b = Integer.parseInt(st.nextToken());
+    st = new StringTokenizer(br.readLine());
+    c = Integer.parseInt(st.nextToken());
+    d = Integer.parseInt(st.nextToken());
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
+}
