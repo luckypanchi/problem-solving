@@ -1,10 +1,10 @@
-# [Bronze II] Lifeguards (Bronze) - 15593 
+# [Bronze I] Lifeguards (Bronze) - 15593 
 
 [문제 링크](https://www.acmicpc.net/problem/15593) 
 
 ### 성능 요약
 
-메모리: 109240 KB, 시간: 116 ms
+메모리: 14776 KB, 시간: 108 ms
 
 ### 분류
 
@@ -12,7 +12,7 @@
 
 ### 제출 일자
 
-2024년 4월 24일 13:49:03
+2024년 8월 16일 16:09:18
 
 ### 문제 설명
 
