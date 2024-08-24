@@ -1,52 +1,64 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n, h;
-    static int[] bottom, top;
-    static int answer, count;
+  static StringBuilder sb = new StringBuilder();
+  static int n, h;
+  static int[] heights;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringBuilder sb = new StringBuilder();
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        h = Integer.parseInt(st.nextToken());
-
-        bottom = new int[h + 1];
-        top = new int[h + 1];
-        for (int i = 0; i < n; i++) {
-            int height = Integer.parseInt(br.readLine());
-            if (i % 2 == 0) {
-                bottom[height] += 1;
-            } else {
-                top[height] += 1;
-            }
-        }
-
-        for (int i = h; i > 1; i--) {
-            bottom[i - 1] += bottom[i];
-            top[i - 1] += top[i];
-        }
-
-        answer = Integer.MAX_VALUE;
-        count = 0;
-        for (int height = 1; height < h + 1; height++) {
-            int breakCount = bottom[height] + top[h - height + 1];
-
-            if (breakCount < answer) {
-                answer = breakCount;
-                count = 1;
-            } else if (breakCount == answer) {
-                count += 1;
-            }
-        }
-
-        sb.append(answer).append(" ").append(count);
-        System.out.println(sb);
+    int minCount = Integer.MAX_VALUE;
+    int count = 0;
+    for (int i = 1; i < h + 1; i++) {
+      if (heights[i] < minCount) {
+        minCount = heights[i];
+        count = 1;
+      } else if (heights[i] == minCount) {
+        count++;
+      }
     }
+
+    sb.append(minCount).append(" ").append(count);
+
+    output();
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+
+    n = Integer.parseInt(st.nextToken());
+    h = Integer.parseInt(st.nextToken());
+    heights = new int[h + 2];
+
+    for (int i = 0; i < n; i++) {
+      int curr = Integer.parseInt(br.readLine());
+      if (i % 2 == 0) {
+        heights[1] += 1;
+        heights[curr + 1] -= 1;
+      } else {
+        heights[h - curr + 1] += 1;
+        heights[h + 1] -= 1;
+      }
+    }
+
+    for (int i = 1; i < h + 2; i++) {
+      heights[i] += heights[i - 1];
+    }
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
 }
