@@ -1,22 +1,25 @@
 import sys
+
 input = sys.stdin.readline
-from itertools import combinations
 
-def main():
-    n, l, r, x = map(int, input().split())
-    level = list(map(int, input().split()))
+INF = float("inf")
 
-    candidates = []
-    cnt = 0
 
-    for i in range(2, n+1):
-        candidates += list(combinations(level, i))
-    
-    for arr in candidates:
-        if l <= sum(arr) <= r and x <= max(arr) - min(arr):
-            cnt += 1
+def solve(curr, _min, _max, _sum):
+    global answer
+    if curr == n:
+        if L <= _sum <= R and X <= _max - _min:
+            answer += 1
+        return
 
-    print(cnt)
+    solve(curr + 1, min(_min, givens[curr]), max(_max, givens[curr]), _sum + givens[curr])
+    solve(curr + 1, _min, _max, _sum)
 
-if __name__ == "__main__":
-    main()
+
+n, L, R, X = map(int, input().split())
+givens = list(map(int, input().split()))
+
+answer = 0
+solve(0, INF, -INF, 0)
+
+print(answer)
