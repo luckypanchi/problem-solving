@@ -1,41 +1,52 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n, m;
-    static int[] selected;
-    static StringBuilder sb = new StringBuilder();
+  static StringBuilder sb = new StringBuilder();
+  static int n, m;
+  static int[] selected;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
+    solve(0);
 
-        selected = new int[m];
+    output();
+  }
 
-        solve(0);
-
-        System.out.println(sb);
-
+  private static void solve(int curr) {
+    if (curr == m) {
+      for (int num : selected) {
+        sb.append(num).append(" ");
+      }
+      sb.append("\n");
+      return;
     }
 
-    private static void solve(int curr) {
-        if (curr == m) {
-            for (int i = 0; i < m; i++) {
-                sb.append(selected[i]).append(" ");
-            }
-            sb.append("\n");
-            return;
-        }
-
-        for (int i = 0; i < n; i++) {
-            selected[curr] = i + 1;
-            solve(curr + 1);
-        }
+    for (int i = 1; i < n + 1; i++) {
+      selected[curr] = i;
+      solve(curr + 1);
     }
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    selected = new int[m];
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
 }
