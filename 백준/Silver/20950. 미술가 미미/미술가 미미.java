@@ -1,55 +1,70 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n;
-    static int[][] colors;
-    static int[] gomduri;
-    static int answer = Integer.MAX_VALUE;
+  static StringBuilder sb = new StringBuilder();
+  static int n, answer;
+  static int[][] colors;
+  static int[] targetColor;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-        n = Integer.parseInt(br.readLine());
-        colors = new int[n][3];
-        for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < 3; j++) {
-                colors[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
+    answer = Integer.MAX_VALUE;
+    solve(0, 0, 0, 0, 0);
 
-        gomduri = new int[3];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < 3; i++) {
-            gomduri[i] = Integer.parseInt(st.nextToken());
-        }
+    sb.append(answer);
+    output();
+  }
 
-        solve(0, 0, 0, 0, 0);
-
-        System.out.println(answer);
-
+  private static void solve(int curr, int r, int g, int b, int count) {
+    if (7 < count) {
+      return;
+    }
+    if (curr == n) {
+      if (1 < count) {
+        int diff = Math.abs(targetColor[0] - r / count) + Math.abs(targetColor[1] - g / count) + Math.abs(targetColor[2] - b / count);
+        answer = Math.min(answer, diff);
+      }
+      return;
     }
 
-    private static void solve(int curr, int count, int r, int g, int b) {
-        if (count == 7 || curr == n) {
-            if (count < 2) {
-                return;
-            }
+    solve(curr + 1, r + colors[curr][0], g + colors[curr][1], b + colors[curr][2], count + 1);
+    solve(curr + 1, r, g, b, count);
 
-            r /= count;
-            g /= count;
-            b /= count;
+  }
 
-            answer = Math.min(answer, Math.abs(r - gomduri[0]) + Math.abs(g - gomduri[1]) + Math.abs(b - gomduri[2]));
-            return;
-        }
 
-        solve(curr + 1, count + 1, r + colors[curr][0], g + colors[curr][1], b + colors[curr][2]);
-        solve(curr + 1, count, r, g, b);
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st;
+
+    n = Integer.parseInt(br.readLine());
+    colors = new int[n][3];
+    for (int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for (int j = 0; j < 3; j++) {
+        colors[i][j] = Integer.parseInt(st.nextToken());
+      }
     }
+
+    targetColor = new int[3];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < 3; i++) {
+      targetColor[i] = Integer.parseInt(st.nextToken());
+    }
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
 }
