@@ -1,67 +1,84 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n, m;
-	static int[][] board;
-	static int[] selected;
-	static List<int[]> chickens, houses;
-	static int answer;
+  static StringBuilder sb = new StringBuilder();
+  static int n, m, answer;
+  static List<int[]> houses, chickens;
+  static int[][] board;
+  static int[] selected;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-		board = new int[n][n];
-		selected = new int[m];
-		chickens = new ArrayList<>();
-		houses = new ArrayList<>();
-		answer = Integer.MAX_VALUE;
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < n; j++) {
-				board[i][j] = Integer.parseInt(st.nextToken());
-				if (board[i][j] == 1) {
-					houses.add(new int[]{ i, j });
-				} else if (board[i][j] == 2) {
-					chickens.add(new int[]{ i, j });
-				}
-			}
-		}
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		comb(0, 0);
+    answer = Integer.MAX_VALUE;
+    selected = new int[m];
+    combination(0, 0);
 
-		System.out.println(answer);
+    sb.append(answer);
+    output();
+  }
 
-	}
+  private static void combination(int curr, int start) {
+    if (curr == m) {
+      answer = Math.min(answer, calcChickenDist());
+      return;
+    }
 
-	private static void comb(int cnt, int start) {
-		if (cnt == m) {
-			int total = 0;
-			for (int[] house : houses) {
-				int min = Integer.MAX_VALUE;
-				for (int index : selected) {
-					int[] chicken = chickens.get(index);
-					int tmp = Math.abs(chicken[0] - house[0]) + Math.abs(chicken[1] - house[1]);
-					min = Math.min(min, tmp);
-				}
-				total += min;
-			}
+    for (int i = start; i < chickens.size(); i++) {
+      selected[curr] = i;
+      combination(curr + 1, i + 1);
+    }
+  }
 
-			answer = Math.min(answer, total);
-			return;
-		}
+  private static int calcChickenDist() {
+    int result = 0;
+    for (int[] house : houses) {
+      int minDist = Integer.MAX_VALUE;
+      for (int selectedChickenIndex : selected) {
+        int[] selectedChicken = chickens.get(selectedChickenIndex);
+        int dist = Math.abs(house[0] - selectedChicken[0]) + Math.abs(house[1] - selectedChicken[1]);
+        minDist = Math.min(minDist, dist);
+      }
+      result += minDist;
+    }
 
-		for (int i = start; i < chickens.size(); i++) {
-			selected[cnt] = i;
-			comb(cnt + 1, i + 1);
-		}
-	}
+    return result;
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    houses = new ArrayList<>();
+    chickens = new ArrayList<>();
+    board = new int[n][n];
+    for (int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for (int j = 0; j < n; j++) {
+        board[i][j] = Integer.parseInt(st.nextToken());
+        if (board[i][j] == 1) {
+          houses.add(new int[]{i, j});
+        } else if (board[i][j] == 2) {
+          chickens.add(new int[]{i, j});
+        }
+      }
+    }
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
