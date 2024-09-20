@@ -1,62 +1,67 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
-import java.util.List;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static List<Character> vowels = Arrays.asList('a', 'e', 'i', 'o', 'u');
+  static StringBuilder sb = new StringBuilder();
+  static int n, m;
+  static char[] givens;
+  static char[] selected;
 
-	static int l, c;
-	static char[] letters;
-	static char[] selected;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-	static StringBuilder sb;
+    Arrays.sort(givens);
+    combinations(0, 0, 0, 0);
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		l = Integer.parseInt(st.nextToken());
-		c = Integer.parseInt(st.nextToken());
-		letters = new char[c];
-		selected = new char[l];
-		sb = new StringBuilder();
-		st = new StringTokenizer(br.readLine());
-		for (int i = 0; i < c; i++) {
-			letters[i] = st.nextToken().charAt(0);
-		}
-		Arrays.sort(letters);
+    output();
+  }
 
-		choose(0, 0);
+  private static void combinations(int curr, int start, int consonantCount, int vowelCount) {
+    if (curr == n) {
+      if (1 <= vowelCount && 2 <= consonantCount) {
+        for (char c : selected) {
+          sb.append(c);
+        }
+        sb.append("\n");
+      }
+      return;
+    }
 
-		System.out.println(sb);
-	}
+    for (int i = start; i < m; i++) {
+      selected[curr] = givens[i];
+      if (givens[i] == 'a' || givens[i] == 'e' || givens[i] == 'i' || givens[i] == 'o' || givens[i] == 'u') {
+        combinations(curr + 1, i + 1, consonantCount, vowelCount + 1);
+      } else {
+        combinations(curr + 1, i + 1, consonantCount + 1, vowelCount);
+      }
+    }
 
-	private static void choose(int cnt, int start) {
-		if (cnt == l) {
-			int cnt1 = 0;
-			int cnt2 = 0;
-			for (char s : selected) {
-				if (vowels.contains(s)) {
-					cnt1++;
-				} else {
-					cnt2++;
-				}
-			}
+  }
 
-			if (1 <= cnt1 && 2 <= cnt2) {
-				sb.append(new String(selected)).append("\n");
-			}
-			return;
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    selected = new char[n];
+    givens = new char[m];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < m; i++) {
+      givens[i] = st.nextToken().charAt(0);
+    }
+  }
 
-		}
-
-		for (int i = start; i < c; i++) {
-			selected[cnt] = letters[i];
-			choose(cnt + 1, i + 1);
-		}
-	}
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
