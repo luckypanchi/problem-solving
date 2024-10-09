@@ -35,7 +35,7 @@ public class Main {
         left.offer(right.pollLast());
       } else if (curr == '-' && !left.isEmpty()) {
         left.pollLast();
-      } else if (('a' <= curr && curr <= 'z') || ('A' <= curr && curr <= 'Z') || ('0' <= curr && curr <= '9')) {
+      } else if (Character.isLetterOrDigit(curr)) {
         left.offer(curr);
       }
     }
