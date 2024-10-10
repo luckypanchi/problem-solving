@@ -1,29 +1,48 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 public class Main {
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		int n = Integer.parseInt(br.readLine());
-		int answer = 0;
-		while (true) {
-			if (n % 5 == 0) {
-				answer += n / 5;
-				break;
-			}
+  static StringBuilder sb = new StringBuilder();
+  static int n;
 
-			n -= 3;
-			answer += 1;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-			if (n < 0) {
-				answer = -1;
-				break;
-			}
-		}
+    int answer = 0;
 
-		System.out.println(answer);
-	}
+    while (true) {
+      if (n % 5 == 0) {
+        answer += n / 5;
+        break;
+      }
+
+      n -= 3;
+      answer++;
+
+      if (n < 0) {
+        answer = -1;
+        break;
+      }
+    }
+
+    sb.append(answer);
+    output();
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    n = Integer.parseInt(br.readLine());
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
