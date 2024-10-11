@@ -1,4 +1,4 @@
-SELECT count(*) FISH_COUNT, MONTH(time) MONTH
+SELECT count(*) fish_count, MONTH(time) month
 FROM fish_info
-GROUP BY MONTH(time)
-ORDER BY MONTH;
+GROUP BY month
+ORDER BY month
