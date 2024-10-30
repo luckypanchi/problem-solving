@@ -1,56 +1,64 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n, k;
+  static StringBuilder sb = new StringBuilder();
+  static int n, k;
+  static final int MAX_LENGTH = 100_000;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		k = Integer.parseInt(st.nextToken());
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		bfs();
-	}
+    sb.append(bfs());
 
-	private static void bfs() {
-		Queue<Integer> que = new ArrayDeque<>();
-		int[] visited = new int[100001];
-		que.offer(n);
-		visited[n] = 1;
+    output();
+  }
 
-		while (!que.isEmpty()) {
-			int curr = que.poll();
+  private static int bfs() {
+    int[] visited = new int[MAX_LENGTH + 1];
+    Deque<Integer> que = new ArrayDeque<>();
 
-			if (curr == k) {
-				System.out.println(visited[curr] - 1);
-				return;
-			}
+    visited[n] = 1;
+    que.offer(n);
 
-			int next = curr + 1;
-			if (next < 100001 && visited[next] == 0) {
-				visited[next] = visited[curr] + 1;
-				que.offer(next);
-			}
+    while (!que.isEmpty()) {
+      int curr = que.poll();
 
-			next = curr - 1;
-			if (0 <= next && visited[next] == 0) {
-				visited[next] = visited[curr] + 1;
-				que.offer(next);
-			}
+      if (curr == k) {
+        break;
+      }
 
-			next = curr * 2;
-			if (next < 100001 && visited[next] == 0) {
-				visited[next] = visited[curr] + 1;
-				que.offer(next);
-			}
+      for (int next : new int[]{curr - 1, curr + 1, 2 * curr}) {
+        if (0 <= next && next < MAX_LENGTH + 1 && visited[next] == 0) {
+          visited[next] = visited[curr] + 1;
+          que.offer(next);
 
-		}
-	}
+        }
+      }
+    }
+
+    return visited[k] - 1;
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    k = Integer.parseInt(st.nextToken());
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
