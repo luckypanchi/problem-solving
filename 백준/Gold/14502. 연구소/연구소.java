@@ -1,118 +1,122 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Queue;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n, m, answer;
-	static int[][] board;
-	static List<Pair> empty;
-	static int[] dx = { 1, 0, -1, 0 };
-	static int[] dy = { 0, 1, 0, -1 };
+  static StringBuilder sb = new StringBuilder();
+  static int n, m;
+  static int[][] board;
+  static int answer;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringTokenizer st = new StringTokenizer(br.readLine());
+  static int[] dx = {1, 0, -1, 0};
+  static int[] dy = {0, 1, 0, -1};
 
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
-		board = new int[n][m];
-		empty = new ArrayList<>();
-		for (int i = 0; i < n; i++) {
-			st = new StringTokenizer(br.readLine());
-			for (int j = 0; j < m; j++) {
-				board[i][j] = Integer.parseInt(st.nextToken());
-				if (board[i][j] == 0) {
-					empty.add(new Pair(i, j));
-				}
-			}
-		}
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		answer = Integer.MIN_VALUE;
-		List<Integer> selected = new ArrayList<>();
-		comb(selected, 0, 0);
+    answer = -1;
 
-		System.out.println(answer);
-	}
+    dfs(0, 0);
 
-	private static void comb(List<Integer> selected, int prev, int cnt) {
-		if (cnt == 3) {
-			int result = check(selected);
-			answer = Math.max(answer, result);
-			return;
-		}
+    sb.append(answer);
 
-		for (int i = prev; i < empty.size(); i++) {
-			selected.add(i);
-			comb(selected, i + 1, cnt + 1);
-			selected.remove(cnt);
-		}
-	}
+    output();
+  }
 
-	private static int check(List<Integer> selected) {
-		for (int idx : selected) {
-			Pair p = empty.get(idx);
-			board[p.y][p.x] = 1;
-		}
+  private static void dfs(int curr, int start) {
+    if (curr == 3) {
+      answer = Math.max(answer, count());
+      return;
+    }
 
-		boolean[][] visited = new boolean[n][m];
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				if (board[i][j] == 2 && !visited[i][j]) {
-					bfs(i, j, visited);
-				}
-			}
-		}
+    for (int next = start; next < n * m; next++) {
+      int y = next / m;
+      int x = next % m;
+      if (board[y][x] == 0) {
+        board[y][x] = 1;
+        dfs(curr + 1, next + 1);
+        board[y][x] = 0;
+      }
+    }
+  }
 
-		int result = 0;
-		for (int i = 0; i < n; i++) {
-			for (int j = 0; j < m; j++) {
-				if (board[i][j] == 0 && !visited[i][j]) {
-					result++;
-				}
-			}
-		}
+  private static int count() {
+    boolean[][] visited = new boolean[n][m];
+    for (int y = 0; y < n; y++) {
+      for (int x = 0; x < m; x++) {
+        if (!visited[y][x] && board[y][x] == 2) {
+          mark(y, x, visited);
+        }
+      }
+    }
 
-		for (int idx : selected) {
-			Pair p = empty.get(idx);
-			board[p.y][p.x] = 0;
-		}
+    int count = 0;
+    for (int y = 0; y < n; y++) {
+      for (int x = 0; x < m; x++) {
+        if (!visited[y][x] && board[y][x] == 0) {
+          count++;
+        }
+      }
+    }
 
-		return result;
-	}
+    return count;
+  }
 
-	private static void bfs(int y, int x, boolean[][] visited) {
-		Queue<Pair> que = new ArrayDeque<>();
-		visited[y][x] = true;
-		que.add(new Pair(y, x));
+  private static void mark(int y, int x, boolean[][] visited) {
+    visited[y][x] = true;
 
-		while (!que.isEmpty()) {
-			Pair curr = que.poll();
+    Deque<int[]> que = new ArrayDeque<>();
+    que.offer(new int[]{y, x});
 
-			for (int i = 0; i < 4; i++) {
-				int ny = curr.y + dy[i];
-				int nx = curr.x + dx[i];
-				if (0 <= ny && ny < n && 0 <= nx && nx < m && !visited[ny][nx] && board[ny][nx] != 1) {
-					visited[ny][nx] = true;
-					que.add(new Pair(ny, nx));
-				}
-			}
-		}
-	}
+    while (!que.isEmpty()) {
+      int[] curr = que.pollFirst();
 
-	static class Pair {
+      int currY = curr[0];
+      int currX = curr[1];
 
-		int y, x;
+      for (int i = 0; i < 4; i++) {
+        int ny = currY + dy[i];
+        int nx = currX + dx[i];
 
-		public Pair(int y, int x) {
-			this.y = y;
-			this.x = x;
-		}
-	}
+        if (!checkRange(ny, nx) || visited[ny][nx] || board[ny][nx] != 0) {
+          continue;
+        }
+
+        visited[ny][nx] = true;
+        que.offer(new int[]{ny, nx});
+      }
+    }
+  }
+
+  private static boolean checkRange(int y, int x) {
+    return 0 <= y && y < n && 0 <= x && x < m;
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    board = new int[n][m];
+    for (int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for (int j = 0; j < m; j++) {
+        board[i][j] = Integer.parseInt(st.nextToken());
+      }
+    }
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
