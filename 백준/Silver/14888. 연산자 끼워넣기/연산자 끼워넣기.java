@@ -1,67 +1,79 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.StringTokenizer;
 
 public class Main {
 
-    static int n;
-    static int[] numbers;
-    static int[] operators;
-    static int min = Integer.MAX_VALUE;
-    static int max = Integer.MIN_VALUE;
+  static StringBuilder sb = new StringBuilder();
+  static int n;
+  static int[] numbers;
+  static int[] counts;
+  static int max, min;
 
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-        n = Integer.parseInt(br.readLine());
-        numbers = new int[n];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < n; i++) {
-            numbers[i] = Integer.parseInt(st.nextToken());
-        }
-        operators = new int[4];
-        st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < 4; i++) {
-            operators[i] = Integer.parseInt(st.nextToken());
-        }
+    dfs(numbers[0], 1);
 
-        solve(1, numbers[0]);
+    sb.append(max).append("\n").append(min);
 
-        System.out.println(max);
-        System.out.println(min);
+    output();
+  }
 
+  private static void dfs(int prev, int curr) {
+    if (curr == n) {
+      max = Math.max(prev, max);
+      min = Math.min(prev, min);
+      return;
     }
 
-    private static void solve(int curr, int prev) {
-        if (curr == n) {
-            min = Math.min(min, prev);
-            max = Math.max(max, prev);
-            return;
+    for (int i = 0; i < 4; i++) {
+      if (counts[i] != 0) {
+        counts[i]--;
+
+        if (i == 0) {
+          dfs(prev + numbers[curr], curr + 1);
+        } else if (i == 1) {
+          dfs(prev - numbers[curr], curr + 1);
+        } else if (i == 2) {
+          dfs(prev * numbers[curr], curr + 1);
+        } else {
+          dfs(prev / numbers[curr], curr + 1);
         }
 
-        for (int i = 0; i < 4; i++) {
-            if (operators[i] > 0) {
-                operators[i]--;
-                switch (i) {
-                    case 0:
-                        solve(curr + 1, prev + numbers[curr]);
-                        break;
-                    case 1:
-                        solve(curr + 1, prev - numbers[curr]);
-                        break;
-                    case 2:
-                        solve(curr + 1, prev * numbers[curr]);
-                        break;
-                    case 3:
-                        solve(curr + 1, prev / numbers[curr]);
-                        break;
-                    default:
-                        break;
-                }
-                operators[i]++;
-            }
-        }
+        counts[i]++;
+      }
     }
+
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st;
+
+    n = Integer.parseInt(br.readLine());
+    numbers = new int[n];
+    counts = new int[4];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < n; i++) {
+      numbers[i] = Integer.parseInt(st.nextToken());
+    }
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < 4; i++) {
+      counts[i] = Integer.parseInt(st.nextToken());
+    }
+    max = Integer.MIN_VALUE;
+    min = Integer.MAX_VALUE;
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
 }
