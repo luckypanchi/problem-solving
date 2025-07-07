@@ -4,11 +4,15 @@
 
 ### 성능 요약
 
-메모리: 151288 KB, 시간: 1564 ms
+메모리: 153144 KB, 시간: 952 ms
 
 ### 분류
 
-너비 우선 탐색(bfs), 깊이 우선 탐색(dfs), 그래프 이론(graphs), 그래프 탐색(graph_traversal), 구현(implementation), 시뮬레이션(simulation)
+구현, 그래프 이론, 그래프 탐색, 시뮬레이션, 너비 우선 탐색, 깊이 우선 탐색
+
+### 제출 일자
+
+2025년 7월 7일 23:53:08
 
 ### 문제 설명
 
@@ -19,9 +23,9 @@
 <table class="table table-bordered td-center td-middle" style="width:100%;">
 	<tbody>
 		<tr>
-			<td><img alt="" src="" style="width: 300px; height: 302px;"></td>
-			<td><img alt="" src="" style="width: 300px; height: 302px;"></td>
-			<td><img alt="" src="" style="width: 300px; height: 300px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/68137f5d-fdbd-48c6-92f0-0a74ee53b0c2/-/preview/" style="width: 300px; height: 302px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/4216e4de-a9f7-4bf0-9385-e20c583c1228/-/preview/" style="width: 300px; height: 302px;"></td>
+			<td><img alt="" src="https://upload.acmicpc.net/a58a4219-afc7-4f77-a194-a5495882eeb4/-/preview/" style="width: 300px; height: 300px;"></td>
 		</tr>
 		<tr>
 			<td>마법을 시전하기 전</td>
