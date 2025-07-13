@@ -1,181 +1,220 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.*;
-
-
-class Node {
-    int y, x;
-
-    public Node(int y, int x) {
-        this.y = y;
-        this.x = x;
-    }
-}
-
-
-class Group implements Comparable<Group> {
-    List<Node> nodeList;
-    Node pivot;
-    int rainbowCnt;
-
-    public Group() {
-        nodeList = new ArrayList<>();
-        pivot = new Node(Integer.MAX_VALUE, Integer.MAX_VALUE);
-        rainbowCnt = 0;
-    }
-
-    public void setPivot(Node node) {
-        this.pivot = node;
-    }
-
-    public Node getPivot() {
-        return this.pivot;
-    }
-
-    public void put(Node node) {
-        this.nodeList.add(node);
-
-    }
-
-    public int size() {
-        return this.nodeList.size();
-    }
-
-    @Override
-    public int compareTo(Group other) {
-        if(this.size() != other.size()) return this.size() - other.size();
-        if(this.rainbowCnt != other.rainbowCnt) return this.rainbowCnt - other.rainbowCnt;
-
-        Node pivot = this.getPivot();
-        Node otherPivot = other.getPivot();
-
-        if(pivot.y != otherPivot.y) return pivot.y - otherPivot.y;
-        return pivot.x - otherPivot.x;
-    }
-}
+import java.io.OutputStreamWriter;
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Deque;
+import java.util.List;
+import java.util.StringTokenizer;
 
 public class Main {
 
-    static final int BLANK = 10;
-    static int[] dy = {0, 1, 0, -1};
-    static int[] dx = {1, 0, -1, 0};
-    static int n, m;
-    static int[][] board;
-    static boolean[][] visited;
+  static StringBuilder sb = new StringBuilder();
+  static int n, m;
+  static int[][] board;
 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        board = new int[n][n];
+  static int[] dx = {1, 0, -1, 0};
+  static int[] dy = {0, 1, 0, -1};
 
-        for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
-                board[i][j] = Integer.parseInt(st.nextToken());
-            }
-        }
+  static final int EMPTY = Integer.MIN_VALUE;
 
-        int answer = 0;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-        while(true) {
-            Group targets = findBiggestGroup();
-            if(targets.size() == 0) break;
-            answer += popBlocks(targets);
-            drop();
-            rotate();
-            drop();
-        }
+    int answer = 0;
+    while (true) {
+      List<BlockGroup> blockGroups = findBlockGroups();
 
-        System.out.println(answer);
+      if (blockGroups.isEmpty()) {
+        break;
+      }
+
+      Collections.sort(blockGroups);
+      BlockGroup biggest = blockGroups.get(0);
+
+      int size = biggest.blocks.size();
+      answer += size * size;
+      removeBlocks(biggest.blocks);
+
+      applyGravity();
+      rotate();
+      applyGravity();
     }
 
-    static Group findBiggestGroup() {
-        Group targets = new Group();
-        visited = new boolean[n][n];
+    sb.append(answer);
+    output();
+  }
 
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                if(0 < board[i][j] && board[i][j] <= m && !visited[i][j]) {
-                    Group found = findGroup(i, j);
-                    if(found.size() > 1 && targets.compareTo(found) < 0) targets = found;
-                }
-            }
-        }
+  private static void rotate() {
+    int[][] newBoard = new int[n][n];
 
-        return targets;
+    for (int y = 0; y < n; y++) {
+      for (int x = 0; x < n; x++) {
+        newBoard[n - 1 - x][y] = board[y][x];
+      }
     }
 
-    static Group findGroup(int sy, int sx) {
-        boolean[][] localVisited = new boolean[n][n];
-        Group found = new Group();
-        Deque<Node> que = new ArrayDeque<>();
+    board = newBoard;
+  }
 
-        Node nd = new Node(sy, sx);
-        found.put(nd);
-        found.setPivot(nd);
-        que.add(nd);
-
-        localVisited[sy][sx] = true;
-        visited[sy][sx] = true;
-
-        while(!que.isEmpty()) {
-            Node node = que.pollFirst();
-            for(int i = 0; i < 4; i++) {
-                int ny = node.y + dy[i];
-                int nx = node.x + dx[i];
-                if(0 <= ny && ny < n && 0 <= nx && nx < n) {
-                    if((board[ny][nx] == 0 || board[ny][nx] == board[sy][sx]) && !localVisited[ny][nx] && !visited[ny][nx]) {
-                        nd = new Node(ny, nx);
-                        found.put(nd);
-                        que.add(nd);
-                        localVisited[ny][nx] = true;
-                        if(board[ny][nx] != 0) {
-                            visited[ny][nx] = true;
-                        } else {
-                            found.rainbowCnt ++;
-                        }
-                    }
-                }
-            }
-        }
-        return found;
-    }
-
-    static int popBlocks(Group targets) {
-        for (Node node : targets.nodeList) {
-            board[node.y][node.x] = BLANK;
-        }
-        return (int)Math.pow(targets.size(), 2);
-    }
-
-    static void drop() {
-        for(int j = 0; j < n; j++) {
-            for(int i = n - 1; i > 0; i--) {
-                if(board[i][j] == BLANK) {
-                    for(int k = i - 1; k > -1; k--) {
-                        if(board[k][j] == -1) break;
-                        if(board[k][j] != BLANK) {
-                            board[i][j] = board[k][j];
-                            board[k][j] = BLANK;
-                            break;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    static void rotate() {
-        int[][] newBoard = new int[n][n];
-
-        for(int i = 0; i < n; i++) {
-            for(int j = 0; j < n; j++) {
-                newBoard[n - 1 - j][i] = board[i][j];
-            }
+  private static void applyGravity() {
+    for (int x = 0; x < n; x++) {
+      for (int y = n - 2; y > -1; y--) {
+        if (board[y][x] == -1) {
+          continue;
         }
 
-        board = newBoard;
+        int currY = y;
+        while (currY + 1 != n && board[currY + 1][x] == EMPTY) {
+          board[currY + 1][x] = board[currY][x];
+          board[currY][x] = EMPTY;
+          currY++;
+        }
+      }
     }
+  }
+
+  private static void removeBlocks(List<Block> blocks) {
+    for (Block block : blocks) {
+      board[block.y][block.x] = EMPTY;
+    }
+  }
+
+  private static List<BlockGroup> findBlockGroups() {
+    List<BlockGroup> result = new ArrayList<>();
+
+    boolean[][] visited = new boolean[n][n];
+
+    for (int y = 0; y < n; y++) {
+      for (int x = 0; x < n; x++) {
+        if (0 < board[y][x] && board[y][x] < m + 1 && !visited[y][x]) {
+          BlockGroup curr = findBlockGroup(y, x, board[y][x], visited);
+          if (curr != null) {
+            result.add(curr);
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  private static BlockGroup findBlockGroup(int y, int x, int color, boolean[][] visited) {
+    List<Block> blocks = new ArrayList<>();
+    blocks.add(new Block(y, x));
+
+    int rainbowBlockCount = 0;
+    Block std = new Block(y, x);
+
+    Deque<Block> que = new ArrayDeque<>();
+    que.offer(new Block(y, x));
+
+    visited[y][x] = true;
+
+    boolean[][] currVisited = new boolean[n][n];
+    currVisited[y][x] = true;
+
+    while (!que.isEmpty()) {
+      Block curr = que.pollFirst();
+
+      for (int i = 0; i < 4; i++) {
+        int ny = curr.y + dy[i];
+        int nx = curr.x + dx[i];
+
+        if (!checkRange(ny, nx) || currVisited[ny][nx] || (board[ny][nx] != 0 && board[ny][nx] != color)) {
+          continue;
+        }
+
+        que.offer(new Block(ny, nx));
+        currVisited[ny][nx] = true;
+        if (board[ny][nx] == color) {
+          visited[ny][nx] = true;
+        }
+        blocks.add(new Block(ny, nx));
+
+        if (board[ny][nx] == color) {
+          if ((ny < std.y) || (ny == std.y && nx < std.x)) {
+            std = new Block(ny, nx);
+          }
+        } else if (board[ny][nx] == 0) {
+          rainbowBlockCount++;
+        }
+      }
+    }
+
+    if (blocks.size() < 2) {
+      return null;
+    }
+
+    return new BlockGroup(std, rainbowBlockCount, blocks);
+  }
+
+  private static boolean checkRange(int y, int x) {
+    return 0 <= y && y < n && 0 <= x && x < n;
+  }
+
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    board = new int[n][n];
+    for (int i = 0; i < n; i++) {
+      st = new StringTokenizer(br.readLine());
+      for (int j = 0; j < n; j++) {
+        board[i][j] = Integer.parseInt(st.nextToken());
+      }
+    }
+  }
+
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
+
+  private static class BlockGroup implements Comparable<BlockGroup> {
+
+    Block std;
+    int rainbowBlockCount;
+    List<Block> blocks;
+
+    public BlockGroup(Block std, int rainbowBlockCount, List<Block> blocks) {
+      this.std = std;
+      this.rainbowBlockCount = rainbowBlockCount;
+      this.blocks = blocks;
+    }
+
+    @Override
+    public int compareTo(BlockGroup o) {
+      if (this.blocks.size() != o.blocks.size()) {
+        return o.blocks.size() - this.blocks.size();
+      }
+
+      if (this.rainbowBlockCount != o.rainbowBlockCount) {
+        return o.rainbowBlockCount - this.rainbowBlockCount;
+      }
+
+      if (this.std.y != o.std.y) {
+        return o.std.y - this.std.y;
+      }
+
+      return o.std.x - this.std.x;
+    }
+  }
+
+  private static class Block {
+
+    int y, x;
+
+    public Block(int y, int x) {
+      this.y = y;
+      this.x = x;
+    }
+  }
+
 }
