@@ -3,9 +3,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.HashSet;
-import java.util.Objects;
-import java.util.Set;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -13,18 +10,24 @@ public class Main {
   static StringBuilder sb = new StringBuilder();
   static int n, m;
   static int[][] board;
-  static boolean[][] visited;
-  static int answer = 0;
-
   static int[] dx = {1, 0, -1, 0};
   static int[] dy = {0, 1, 0, -1};
+
+  static int[][] visited;
+  static int depth, answer;
 
   public static void main(String[] args) throws IOException {
     setUp();
 
+    visited = new int[n][m];
+    depth = 0;
+    answer = 0;
+
     for (int i = 0; i < n; i++) {
       for (int j = 0; j < m; j++) {
-        if (!visited[i][j]) {
+        if (visited[i][j] == 0) {
+          depth++;
+          visited[i][j] = depth;
           solve(i, j);
         }
       }
@@ -34,38 +37,18 @@ public class Main {
     output();
   }
 
-  private static void solve(int startY, int startX) {
-    Set<Node> currVisited = new HashSet<>();
-    currVisited.add(new Node(startY, startX));
+  private static void solve(int currY, int currX) {
+    int ny = currY + dy[board[currY][currX]];
+    int nx = currX + dx[board[currY][currX]];
 
-    int currY = startY;
-    int currX = startX;
-
-    while (true) {
-      int ny = currY + dy[board[currY][currX]];
-      int nx = currX + dx[board[currY][currX]];
-
-      if (visited[ny][nx]) {
-        for (Node prev : currVisited) {
-          visited[prev.y][prev.x] = true;
-        }
-        return;
-      }
-
-      if (currVisited.contains(new Node(ny, nx))) {
-        break;
-      }
-
-      currVisited.add(new Node(ny, nx));
-      currY = ny;
-      currX = nx;
+    if (visited[ny][nx] == 0) {
+      visited[ny][nx] = depth;
+      solve(ny, nx);
+    } else if (visited[ny][nx] == depth) {
+      answer++;
     }
-
-    for (Node prev : currVisited) {
-      visited[prev.y][prev.x] = true;
-    }
-    answer++;
   }
+
 
   private static void setUp() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -73,17 +56,15 @@ public class Main {
     n = Integer.parseInt(st.nextToken());
     m = Integer.parseInt(st.nextToken());
     board = new int[n][m];
-    visited = new boolean[n][m];
     for (int i = 0; i < n; i++) {
       String line = br.readLine();
       for (int j = 0; j < m; j++) {
-        char ch = line.charAt(j);
-        board[i][j] = convertToDirection(ch);
+        board[i][j] = convert(line.charAt(j));
       }
     }
   }
 
-  private static int convertToDirection(char ch) {
+  private static int convert(char ch) {
     if (ch == 'N') {
       return 3;
     }
@@ -104,30 +85,6 @@ public class Main {
     bw.write(sb.toString());
     bw.flush();
     bw.close();
-  }
-
-  private static class Node {
-
-    int y, x;
-
-    public Node(int y, int x) {
-      this.y = y;
-      this.x = x;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-      if (o == null || getClass() != o.getClass()) {
-        return false;
-      }
-      Node node = (Node) o;
-      return y == node.y && x == node.x;
-    }
-
-    @Override
-    public int hashCode() {
-      return Objects.hash(y, x);
-    }
   }
 
 }
