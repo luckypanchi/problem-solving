@@ -1,4 +1,4 @@
-SELECT child.id, child.genotype genotype, parent.genotype parent_genotype
-FROM ecoli_data child JOIN ecoli_data parent ON child.parent_id = parent.id
-WHERE child.genotype & parent.genotype = parent.genotype
-ORDER BY child.id;
+SELECT child.ID AS ID, child.GENOTYPE AS GENOTYPE, parent.GENOTYPE AS PARENT_GENOTYPE
+FROM ECOLI_DATA child JOIN ECOLI_DATA parent ON child.PARENT_ID = parent.ID
+WHERE child.GENOTYPE | parent.GENOTYPE = child.GENOTYPE
+ORDER BY child.ID;
