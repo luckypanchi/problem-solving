@@ -22,21 +22,25 @@ public class Main {
 
   private static void permutation(int curr) {
     if (curr == m) {
-      for (int num : selected) {
-        sb.append(num).append(" ");
+      for (int i = 0; i < m; i++) {
+        sb.append(selected[i]).append(" ");
       }
+
       sb.append("\n");
       return;
     }
 
-    for (int i = 1; i < n + 1; i++) {
-      if (!isSelected[i]) {
-        isSelected[i] = true;
-        selected[curr] = i;
-        permutation(curr + 1);
-        isSelected[i] = false;
+    for (int i = 0; i < n; i++) {
+      if (isSelected[i]) {
+        continue;
       }
+
+      isSelected[i] = true;
+      selected[curr] = i + 1;
+      permutation(curr + 1);
+      isSelected[i] = false;
     }
+
   }
 
   private static void setUp() throws IOException {
@@ -44,8 +48,9 @@ public class Main {
     StringTokenizer st = new StringTokenizer(br.readLine());
     n = Integer.parseInt(st.nextToken());
     m = Integer.parseInt(st.nextToken());
+
     selected = new int[m];
-    isSelected = new boolean[n + 1];
+    isSelected = new boolean[n];
   }
 
   private static void output() throws IOException {
