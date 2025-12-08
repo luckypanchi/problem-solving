@@ -1,123 +1,144 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Deque;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Queue;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n;
-	static int[] pp;
-	static Map<Integer, List<Integer>> map;
-	static boolean[] isSelected, visited;
-	static int answer;
+  static StringBuilder sb = new StringBuilder();
+  static int n;
+  static int[] peopleCount;
+  static Map<Integer, List<Integer>> map;
+  static int totalCount, answer;
+  static boolean[] isSelected;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		StringBuilder sb = new StringBuilder();
-		StringTokenizer st;
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		n = Integer.parseInt(br.readLine());
-		pp = new int[n + 1];
-		st = new StringTokenizer(br.readLine());
-		for (int i = 1; i < n + 1; i++) {
-			pp[i] = Integer.parseInt(st.nextToken());
-		}
-		map = new HashMap<>();
-		for (int i = 1; i < n + 1; i++) {
-			st = new StringTokenizer(br.readLine());
-			map.put(i, new ArrayList<>());
-			int m = Integer.parseInt(st.nextToken());
-			for (int j = 0; j < m; j++) {
-				map.get(i).add(Integer.parseInt(st.nextToken()));
-			}
-		}
+    totalCount = Arrays.stream(peopleCount).sum();
+    answer = totalCount;
+    isSelected = new boolean[n + 1];
 
-		answer = Integer.MAX_VALUE;
-		isSelected = new boolean[n + 1];
-		subset(0, 0, 0);
+    combination(1);
 
-		if (answer == Integer.MAX_VALUE) {
-			answer = -1;
-		}
-		
-		System.out.println(answer);
+    if (answer == totalCount) {
+      answer = -1;
+    }
+    sb.append(answer);
+    output();
+  }
 
-	}
+  private static int countZone1PeopleCount() {
+    int count = 0;
+    for (int i = 1; i < n + 1; i++) {
+      if (isSelected[i]) {
+        count += peopleCount[i];
+      }
+    }
+    return count;
+  }
 
-	private static void subset(int cnt, int curr, int visitedCnt) {
-		if (cnt == n) {
-			solve();
-			return;
-		}
+  private static int selectStart(boolean selectedStatus) {
+    for (int i = 1; i < n + 1; i++) {
+      if (isSelected[i] == selectedStatus) {
+        return i;
+      }
+    }
+    return -1;
+  }
 
-		subset(cnt + 1, curr + 1, visitedCnt);
-		isSelected[curr] = true;
-		subset(cnt + 1, curr + 1, visitedCnt + 1);
-		isSelected[curr] = false;
+  private static boolean isZoneConnected(boolean selectedStatus) {
+    boolean[] visited = new boolean[n + 1];
+    int start = selectStart(selectedStatus);
+    visited[start] = true;
 
-	}
+    Deque<Integer> que = new ArrayDeque<>();
+    que.offerLast(start);
 
-	private static void solve() {
-		List<Integer> listA = new ArrayList<>();
-		List<Integer> listB = new ArrayList<>();
+    while (!que.isEmpty()) {
+      int curr = que.pollFirst();
 
-		for (int i = 1; i < n + 1; i++) {
-			if (isSelected[i]) {
-				listA.add(i);
-			} else {
-				listB.add(i);
-			}
-		}
+      for (int next : map.get(curr)) {
+        if (!visited[next] && isSelected[next] == selectedStatus) {
+          visited[next] = true;
+          que.offerLast(next);
+        }
+      }
+    }
 
-		if (listA.size() == 0 || listB.size() == 0) {
-			return;
-		}
+    for (int i = 1; i < n + 1; i++) {
+      if (isSelected[i] == selectedStatus && !visited[i]) {
+        return false;
+      }
+    }
 
-		visited = new boolean[n + 1];
-		bfs(listA);
-		bfs(listB);
+    return true;
+  }
 
-		for (int i = 1; i < n + 1; i++) {
-			if (!visited[i]) {
-				return;
-			}
-		}
+  private static boolean checkZoneCount() {
+    int zone1 = 0;
+    for (int i = 1; i < n + 1; i++) {
+      if (isSelected[i]) {
+        zone1++;
+      }
+    }
+    return zone1 != n && zone1 != 0;
+  }
 
-		int sum1 = 0;
-		int sum2 = 0;
+  private static void solve() {
+    if (checkZoneCount() && isZoneConnected(true) && isZoneConnected(false)) {
+      int zoneCount = countZone1PeopleCount();
+      answer = Math.min(answer, Math.abs(totalCount - 2 * zoneCount));
+    }
+  }
 
-		for (int node : listA) {
-			sum1 += pp[node];
-		}
+  private static void combination(int curr) {
+    if (curr == n + 1) {
+      solve();
+      return;
+    }
 
-		for (int node : listB) {
-			sum2 += pp[node];
-		}
+    isSelected[curr] = true;
+    combination(curr + 1);
+    isSelected[curr] = false;
+    combination(curr + 1);
+  }
 
-		answer = Math.min(answer, Math.abs(sum1 - sum2));
-	}
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st;
 
-	private static void bfs(List<Integer> list) {
-		Queue<Integer> queue = new ArrayDeque<>();
-		int start = list.get(0);
-		queue.add(start);
-		visited[start] = true;
+    n = Integer.parseInt(br.readLine());
+    peopleCount = new int[n + 1];
+    st = new StringTokenizer(br.readLine());
+    for (int i = 0; i < n; i++) {
+      peopleCount[i + 1] = Integer.parseInt(st.nextToken());
+    }
+    map = new HashMap<>();
+    for (int i = 1; i < n + 1; i++) {
+      map.put(i, new ArrayList<>());
+      st = new StringTokenizer(br.readLine());
+      int nearCount = Integer.parseInt(st.nextToken());
+      for (int j = 0; j < nearCount; j++) {
+        map.get(i).add(Integer.parseInt(st.nextToken()));
+      }
+    }
+  }
 
-		while (!queue.isEmpty()) {
-			int node = queue.poll();
-			for (Integer nextNode : map.get(node)) {
-				if (list.contains(nextNode) && !visited[nextNode]) {
-					visited[nextNode] = true;
-					queue.add(nextNode);
-				}
-			}
-		}
-	}
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
 }
