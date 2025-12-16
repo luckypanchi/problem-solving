@@ -1,103 +1,109 @@
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Queue;
+import java.util.Deque;
 import java.util.StringTokenizer;
 
 public class Main {
 
-	static int n, m, startY, startX;
-	static char[][] board;
-	static int[][][] dist;
-	static int[] dx = { 1, 0, -1, 0 };
-	static int[] dy = { 0, 1, 0, -1 };
+  static StringBuilder sb = new StringBuilder();
+  static int n, m;
+  static char[][] board;
+  static int[][][] visited;
+  static int startY, startX;
 
-	public static void main(String[] args) throws IOException {
-		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+  static int[] dy = {0, 1, 0, -1};
+  static int[] dx = {1, 0, -1, 0};
 
-		StringTokenizer st = new StringTokenizer(br.readLine());
-		n = Integer.parseInt(st.nextToken());
-		m = Integer.parseInt(st.nextToken());
+  public static void main(String[] args) throws IOException {
+    setUp();
 
-		board = new char[n][m];
-		for (int i = 0; i < n; i++) {
-			String row = br.readLine();
-			for (int j = 0; j < m; j++) {
-				board[i][j] = row.charAt(j);
+    sb.append(solve());
 
-				if (board[i][j] == '0') {
-					startY = i;
-					startX = j;
-					board[i][j] = '.';
-				}
-			}
-		}
+    output();
+  }
 
-		List<Integer> result = bfs();
+  private static int solve() {
+    Deque<Pair> que = new ArrayDeque<>();
+    que.offerLast(new Pair(startY, startX, 0));
 
-		if (result.isEmpty()) {
-			System.out.println(-1);
-		} else {
-			System.out.println(Collections.min(result));
-		}
+    visited[startY][startX][0] = 1;
 
-	}
+    while (!que.isEmpty()) {
+      Pair curr = que.pollFirst();
 
-	private static List<Integer> bfs() {
-		Queue<Pair> que = new ArrayDeque<>();
-		dist = new int[1 << 6][n][m];
-		que.add(new Pair(0, startY, startX));
-		dist[0][startY][startX] = 1;
-		List<Integer> results = new ArrayList<>();
+      for (int i = 0; i < 4; i++) {
+        int ny = curr.y + dy[i];
+        int nx = curr.x + dx[i];
 
-		while (!que.isEmpty()) {
-			Pair curr = que.poll();
+        if (!checkRange(ny, nx) || visited[ny][nx][curr.keyFlag] != 0 || board[ny][nx] == '#') {
+          continue;
+        }
 
-			for (int i = 0; i < 4; i++) {
-				int ny = curr.y + dy[i];
-				int nx = curr.x + dx[i];
+        if (board[ny][nx] == '1') {
+          return visited[curr.y][curr.x][curr.keyFlag];
+        }
 
-				if (0 <= ny && ny < n && 0 <= nx && nx < m && board[ny][nx] != '#' && dist[curr.key][ny][nx] == 0) {
-					if (board[ny][nx] == '1') {
-						results.add(dist[curr.key][curr.y][curr.x]);
-					} else if (board[ny][nx] == '.') {
-						dist[curr.key][ny][nx] = dist[curr.key][curr.y][curr.x] + 1;
-						que.add(new Pair(curr.key, ny, nx));
-					} else if ('a' <= board[ny][nx] && board[ny][nx] <= 'f') {
-						int newKey = curr.key | (1 << (board[ny][nx] - 'a'));
-						dist[newKey][ny][nx] = dist[curr.key][curr.y][curr.x] + 1;
-						que.add(new Pair(newKey, ny, nx));
-					} else if ('A' <= board[ny][nx] && board[ny][nx] <= 'F' && hasKey(board[ny][nx], curr.key)) {
-						dist[curr.key][ny][nx] = dist[curr.key][curr.y][curr.x] + 1;
-						que.add(new Pair(curr.key, ny, nx));
-					}
+        if ('A' <= board[ny][nx] && board[ny][nx] <= 'F' && (curr.keyFlag & (1 << (board[ny][nx] - 'A'))) != 0) {
+          visited[ny][nx][curr.keyFlag] = visited[curr.y][curr.x][curr.keyFlag] + 1;
+          que.offerLast(new Pair(ny, nx, curr.keyFlag));
+        } else if ('a' <= board[ny][nx] && board[ny][nx] <= 'f') {
+          int newKeyFlag = curr.keyFlag | (1 << (board[ny][nx] - 'a'));
+          visited[ny][nx][newKeyFlag] = visited[curr.y][curr.x][curr.keyFlag] + 1;
+          que.offerLast(new Pair(ny, nx, newKeyFlag));
+        } else if (board[ny][nx] == '.') {
+          visited[ny][nx][curr.keyFlag] = visited[curr.y][curr.x][curr.keyFlag] + 1;
+          que.offerLast(new Pair(ny, nx, curr.keyFlag));
+        }
+      }
+    }
 
-				}
-			}
+    return -1;
+  }
 
-		}
+  private static boolean checkRange(int y, int x) {
+    return 0 <= y && y < n && 0 <= x && x < m;
+  }
 
-		return results;
-	}
+  private static void setUp() throws IOException {
+    BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+    StringTokenizer st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    board = new char[n][m];
+    visited = new int[n][m][1 << 6];
+    for (int i = 0; i < n; i++) {
+      String row = br.readLine();
+      for (int j = 0; j < m; j++) {
+        board[i][j] = row.charAt(j);
+        if (board[i][j] == '0') {
+          startY = i;
+          startX = j;
+          board[i][j] = '.';
+        }
+      }
+    }
+  }
 
-	private static boolean hasKey(char door, int key) {
-		return (key & (1 << (door - 'A'))) != 0;
-	}
+  private static void output() throws IOException {
+    BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    bw.write(sb.toString());
+    bw.flush();
+    bw.close();
+  }
 
-	static class Pair {
+  private static class Pair {
 
-		int y, x, key;
+    int y, x, keyFlag;
 
-		public Pair(int key, int y, int x) {
-			this.y = y;
-			this.x = x;
-			this.key = key;
-		}
-
-	}
+    public Pair(int y, int x, int keyFlag) {
+      this.y = y;
+      this.x = x;
+      this.keyFlag = keyFlag;
+    }
+  }
 
 }
