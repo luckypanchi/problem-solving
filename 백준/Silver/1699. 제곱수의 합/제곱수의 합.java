@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
 
 public class Main {
 
@@ -14,33 +13,21 @@ public class Main {
   public static void main(String[] args) throws IOException {
     setUp();
 
-    sb.append(solve(n));
+    dp = new int[n + 1];
+    for (int i = 1; i < n + 1; i++) {
+      dp[i] = i;
+      for (int j = 1; j * j < i + 1; j++) {
+        dp[i] = Math.min(dp[i], dp[i - j * j] + 1);
+      }
+    }
 
+    sb.append(dp[n]);
     output();
-  }
-
-  private static int solve(int target) {
-    if (Math.sqrt(target) % 1 == 0) {
-      return 1;
-    }
-    if (dp[target] != -1) {
-      return dp[target];
-    }
-
-    int result = Integer.MAX_VALUE;
-    for (int i = 1; i * i <= target; i++) {
-      result = Math.min(result, solve(target - i * i) + 1);
-    }
-
-    dp[target] = result;
-    return result;
   }
 
   private static void setUp() throws IOException {
     BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
     n = Integer.parseInt(br.readLine());
-    dp = new int[n + 1];
-    Arrays.fill(dp, -1);
   }
 
   private static void output() throws IOException {
