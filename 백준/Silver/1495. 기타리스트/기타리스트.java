@@ -3,7 +3,6 @@ import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.util.Arrays;
 import java.util.StringTokenizer;
 
 public class Main {
@@ -11,35 +10,33 @@ public class Main {
   static StringBuilder sb = new StringBuilder();
   static int n, s, m;
   static int[] volumes;
-  static int[][] dp;
+  static boolean[][] dp;
 
   public static void main(String[] args) throws IOException {
     setUp();
 
-    int answer = solve(0, s);
-    if (answer == Integer.MIN_VALUE) {
-      answer = -1;
+    dp = new boolean[n + 1][m + 1];
+    dp[0][s] = true;
+    for (int i = 1; i < n + 1; i++) {
+      for (int currVol = 0; currVol < m + 1; currVol++) {
+        if (0 <= currVol - volumes[i - 1] && dp[i - 1][currVol - volumes[i - 1]]) {
+          dp[i][currVol] = true;
+        } else if (currVol + volumes[i - 1] < m + 1 && dp[i - 1][currVol + volumes[i - 1]]) {
+          dp[i][currVol] = true;
+        }
+      }
+    }
+
+    int answer = -1;
+    for (int i = m; i >= 0; i--) {
+      if (dp[n][i]) {
+        answer = i;
+        break;
+      }
     }
 
     sb.append(answer);
     output();
-  }
-
-  private static int solve(int curr, int prev) {
-    if (prev < 0 || m < prev) {
-      return Integer.MIN_VALUE;
-    }
-    if (curr == n) {
-      return prev;
-    }
-    if (dp[curr][prev] != -1) {
-      return dp[curr][prev];
-    }
-
-    int result = Math.max(solve(curr + 1, prev + volumes[curr]), solve(curr + 1, prev - volumes[curr]));
-    dp[curr][prev] = result;
-
-    return result;
   }
 
   private static void setUp() throws IOException {
@@ -49,13 +46,9 @@ public class Main {
     s = Integer.parseInt(st.nextToken());
     m = Integer.parseInt(st.nextToken());
     volumes = new int[n];
-    dp = new int[n][m + 1];
     st = new StringTokenizer(br.readLine());
     for (int i = 0; i < n; i++) {
       volumes[i] = Integer.parseInt(st.nextToken());
-    }
-    for (int i = 0; i < n; i++) {
-      Arrays.fill(dp[i], -1);
     }
   }
 
