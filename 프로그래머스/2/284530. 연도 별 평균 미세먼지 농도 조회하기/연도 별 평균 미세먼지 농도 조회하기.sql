@@ -1,9 +1,6 @@
-SELECT YEAR(a.ym) year, ROUND(AVG(a.pm_val1), 2) 'pm10', ROUND(AVG(a.pm_val2), 2) 'pm2.5'
-FROM (
-    SELECT ym, pm_val1, pm_val2
-    FROM air_pollution
-    WHERE location2 = '수원'
-) a
-GROUP BY year
-ORDER BY year;
-
+SELECT YEAR(YM) AS 'YEAR', ROUND(AVG(PM_VAL1), 2) AS 'PM10', ROUND(AVG(PM_VAL2), 2) AS 'PM2.5'
+FROM AIR_POLLUTION
+WHERE LOCATION2 = '수원'
+GROUP BY YEAR(YM)
+ORDER BY 'YEAR'
+;
